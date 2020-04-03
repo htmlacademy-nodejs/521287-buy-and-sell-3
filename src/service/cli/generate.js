@@ -7,16 +7,18 @@ const {
   TITLES,
   SENTENCES,
   CATEGORIES,
-  OfferType,
-  SumRestrict,
-  PictureRestrict
+  OFFER_TYPE,
+  SUM_RESTRICT,
+  PICTURE_RESTRICT
 } = require(`../../data.js`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
 
-const generateOffers = (count) =>
-  Array(count)
+const generateOffers = (count) => {
+  const TYPE = Object.keys(OFFER_TYPE);
+
+  return Array(count)
     .fill({})
     .map(() => ({
       category: [CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]],
@@ -24,14 +26,13 @@ const generateOffers = (count) =>
         .slice(1, 5)
         .join(` `),
       picture: getPictureFileName(
-          getRandomInt(PictureRestrict.min, PictureRestrict.max)
+          getRandomInt(PICTURE_RESTRICT.min, PICTURE_RESTRICT.max)
       ),
       title: TITLES[getRandomInt(0, TITLES.length - 1)],
-      type: Object.keys(OfferType)[
-        getRandomInt(0, Object.keys(OfferType).length - 1)
-      ],
-      sum: getRandomInt(SumRestrict.min, SumRestrict.max)
+      type: TYPE[getRandomInt(0, TYPE.length - 1)],
+      sum: getRandomInt(SUM_RESTRICT.min, SUM_RESTRICT.max)
     }));
+};
 
 module.exports = {
   name: `--generate`,

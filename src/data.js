@@ -23,17 +23,17 @@ const SENTENCES = [
 
 const CATEGORIES = [`Книги`, `Разное`, `Посуда`, `Игры`, `Животные`, `Журналы`];
 
-const OfferType = {
+const OFFER_TYPE = {
   offer: `offer`,
   sale: `sale`
 };
 
-const SumRestrict = {
+const SUM_RESTRICT = {
   min: 1000,
   max: 100000
 };
 
-const PictureRestrict = {
+const PICTURE_RESTRICT = {
   min: 1,
   max: 16
 };
@@ -42,7 +42,7 @@ module.exports = {
   TITLES,
   SENTENCES,
   CATEGORIES,
-  OfferType,
-  SumRestrict,
-  PictureRestrict
+  OFFER_TYPE,
+  SUM_RESTRICT,
+  PICTURE_RESTRICT
 };
