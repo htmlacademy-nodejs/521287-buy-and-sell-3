@@ -11,32 +11,32 @@ const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 
-const OFFER_TYPE = {
+const OfferType = {
   offer: `offer`,
-  sale: `sale`
+  sale: `sale`,
 };
 
-const SUM_RESTRICT = {
+const SumRestrict = {
   min: 1000,
-  max: 100000
+  max: 100000,
 };
 
-const PICTURE_RESTRICT = {
+const PictureRestrict = {
   min: 1,
-  max: 16
+  max: 16,
 };
 
 const generateOffers = (count, titles, categories, sentences) => {
   const category = categories[getRandomInt(0, categories.length - 1)];
   const description = shuffle(sentences).slice(1, 5).join(` `);
   const picture = getPictureFileName(
-      getRandomInt(PICTURE_RESTRICT.min, PICTURE_RESTRICT.max)
+      getRandomInt(PictureRestrict.min, PictureRestrict.max)
   );
   const title = titles[getRandomInt(0, titles.length - 1)];
-  const type = Object.keys(OFFER_TYPE)[
-    getRandomInt(0, Object.keys(OFFER_TYPE).length - 1)
+  const type = Object.keys(OfferType)[
+    getRandomInt(0, Object.keys(OfferType).length - 1)
   ];
-  const sum = getRandomInt(SUM_RESTRICT.min, SUM_RESTRICT.max);
+  const sum = getRandomInt(SumRestrict.min, SumRestrict.max);
 
   return Array(count)
     .fill({})
