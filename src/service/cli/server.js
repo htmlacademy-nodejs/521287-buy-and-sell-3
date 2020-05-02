@@ -5,27 +5,10 @@ const http = require(`http`);
 const fs = require(`fs`).promises;
 
 const {HttpCode} = require(`../../constants`);
+const {sendResponse} = require(`../../utils`);
 
 const DEFAULT_PORT = 3000;
 const FILENAME = `mocks.json`;
-
-const sendResponse = (res, statusCode, message) => {
-  const template = `
-    <!doctype html>
-    <html lang="ru">
-      <head>
-        <title>With Love from Node</title>
-      </head>
-      <body>${message}</body>
-    </html>`.trim();
-
-  res.statusCode = statusCode;
-  res.writeHead(statusCode, {
-    'Content-Type': `text/html; charset=UTF-8`,
-  });
-
-  res.end(template);
-};
 
 const onClientConnect = async (req, res) => {
   const notFoundMessageText = `Not found`;
