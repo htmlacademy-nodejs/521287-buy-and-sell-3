@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -18,8 +18,27 @@ const shuffle = (someArray) => {
 
 const getPictureFileName = (number) => `item${(`0` + number).slice(-2)}.jpg`;
 
+const sendResponse = (res, statusCode, message) => {
+  const template = `
+    <!doctype html>
+    <html lang="ru">
+      <head>
+        <title>With Love from Node</title>
+      </head>
+      <body>${message}</body>
+    </html>`.trim();
+
+  res.statusCode = statusCode;
+  res.writeHead(statusCode, {
+    'Content-Type': `text/html; charset=UTF-8`,
+  });
+
+  res.end(template);
+};
+
 module.exports = {
   getRandomInt,
   shuffle,
-  getPictureFileName
+  getPictureFileName,
+  sendResponse,
 };
