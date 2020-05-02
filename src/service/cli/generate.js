@@ -1,6 +1,6 @@
 "use strict";
 
-const fs = require(`fs`).promises;
+const {readFile, writeFile} = require(`fs`).promises;
 const chalk = require(`chalk`);
 
 const {getRandomInt, shuffle, getPictureFileName} = require(`../../utils`);
@@ -52,7 +52,7 @@ const generateOffers = (count, titles, categories, sentences) => {
 
 const readContent = async (filePath) => {
   try {
-    const content = await fs.readFile(filePath, `utf-8`);
+    const content = await readFile(filePath, `utf-8`);
 
     return content.split(`\n`);
   } catch (err) {
@@ -80,7 +80,7 @@ module.exports = {
     );
 
     try {
-      await fs.writeFile(FILE_NAME, content);
+      await writeFile(FILE_NAME, content);
 
       console.log(chalk.green(`Operation success. File created.`));
     } catch (err) {

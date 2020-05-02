@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 const chalk = require(`chalk`);
 const http = require(`http`);
-const fs = require(`fs`).promises;
+const {readFile} = require(`fs`).promises;
 
 const {HttpCode} = require(`../../constants`);
 const {sendResponse} = require(`../../utils`);
@@ -16,7 +16,7 @@ const onClientConnect = async (req, res) => {
   switch (req.url) {
     case `/`:
       try {
-        const fileContent = await fs.readFile(FILENAME);
+        const fileContent = await readFile(FILENAME);
         const mocks = JSON.parse(fileContent);
         const message = mocks.map((post) => `<li>${post.title}</li>`).join(``);
         sendResponse(res, HttpCode.OK, `<ul>${message}</ul>`);
@@ -39,7 +39,8 @@ module.exports = {
     const [customPort] = args;
     const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;
 
-    http.createServer(onClientConnect)
+    http
+      .createServer(onClientConnect)
       .listen(port)
       .on(`listening`, (err) => {
         if (err) {
@@ -48,5 +49,5 @@ module.exports = {
 
         return console.info(chalk.green(`Ожидаю соединение на ${port}`));
       });
-  }
+  },
 };
