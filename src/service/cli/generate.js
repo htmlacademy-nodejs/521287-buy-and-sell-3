@@ -27,34 +27,38 @@ const PictureRestrict = {
 };
 
 const generateOffers = (count, titles, categories, sentences) => {
-  const category = categories[getRandomInt(0, categories.length - 1)];
-  const description = shuffle(sentences).slice(1, 5).join(` `);
-  const picture = getPictureFileName(
-      getRandomInt(PictureRestrict.min, PictureRestrict.max)
-  );
-  const title = titles[getRandomInt(0, titles.length - 1)];
-  const type = Object.keys(OfferType)[
-    getRandomInt(0, Object.keys(OfferType).length - 1)
-  ];
-  const sum = getRandomInt(SumRestrict.min, SumRestrict.max);
+  const offers = [];
 
-  return Array(count)
-    .fill({})
-    .map(() => ({
+  for (let i = 0; i < count; i++) {
+    const category = categories[getRandomInt(0, categories.length - 1)];
+    const description = shuffle(sentences).slice(1, 5).join(` `);
+    const picture = getPictureFileName(
+        getRandomInt(PictureRestrict.min, PictureRestrict.max)
+    );
+    const title = titles[getRandomInt(0, titles.length - 1)];
+    const type = Object.keys(OfferType)[
+      getRandomInt(0, Object.keys(OfferType).length - 1)
+    ];
+    const sum = getRandomInt(SumRestrict.min, SumRestrict.max);
+
+    offers.push({
       category,
       description,
       picture,
       title,
       type,
       sum,
-    }));
+    });
+  }
+
+  return offers;
 };
 
 const readContent = async (filePath) => {
   try {
     const content = await readFile(filePath, `utf-8`);
 
-    return content.split(`\n`);
+    return content.split(`\n`).filter((item) => item !== ``);
   } catch (err) {
     console.error(chalk.red(err));
 
