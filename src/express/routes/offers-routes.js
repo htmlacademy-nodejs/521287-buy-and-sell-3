@@ -4,9 +4,11 @@ const {Router} = require(`express`);
 const offersRouter = new Router();
 const ROOT = `/offers`;
 
-offersRouter.get(`/category/:id`, (req, res) => res.send(`${ROOT}/category/:id`));
+offersRouter.get(`/category/:id`, (req, res) =>
+  res.send(`${ROOT}/category${req.url}`)
+);
 offersRouter.get(`/add`, (req, res) => res.send(`${ROOT}/add`));
-offersRouter.get(`/edit/:id`, (req, res) => res.send(`${ROOT}/edit/:id`));
-offersRouter.get(`/:id`, (req, res) => res.send(`${ROOT}/:id`));
+offersRouter.get(`/edit/:id`, (req, res) => res.send(`${ROOT}/edit${req.url}`));
+offersRouter.get(`/:id`, (req, res) => res.send(`${ROOT}${req.url}`));
 
 module.exports = offersRouter;
