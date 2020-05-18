@@ -1,6 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
+
 const offersRouter = new Router();
 const ROOT = `/offers`;
 

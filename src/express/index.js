@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require(`express`);
+
 const router = require(`./routes`);
 
 const DEFAULT_PORT = 8080;

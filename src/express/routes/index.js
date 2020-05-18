@@ -1,11 +1,12 @@
 'use strict';
 
 const {Router} = require(`express`);
-const router = new Router();
 
 const offersRoutes = require(`./offers-routes`);
 const myRoutes = require(`./my-routes`);
 const mainRoutes = require(`./main-routes`);
+
+const router = new Router();
 
 router.use(`/offers`, offersRoutes);
 router.use(`/my`, myRoutes);
