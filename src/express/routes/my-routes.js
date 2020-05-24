@@ -2,10 +2,11 @@
 
 const {Router} = require(`express`);
 
-const myRouter = new Router();
-const ROOT = `/my`;
+const ROOT = `my`;
 
-myRouter.get(`/`, (req, res) => res.send(ROOT));
-myRouter.get(`/comments`, (req, res) => res.render(`my/comments`));
+const myRouter = new Router();
+
+myRouter.get(`/`, (req, res) => res.render(`${ROOT}/tickets`));
+myRouter.get(`/comments`, (req, res) => res.render(`${ROOT}/comments`));
 
 module.exports = myRouter;
