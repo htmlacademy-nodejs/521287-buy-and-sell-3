@@ -9,7 +9,7 @@ offersRouter.get(`/category/:id`, (req, res) =>
   res.send(`${ROOT}${req.url}`)
 );
 offersRouter.get(`/add`, (req, res) => res.render(`offers/add`));
-offersRouter.get(`/edit/:id`, (req, res) => res.send(`${ROOT}${req.url}`));
+offersRouter.get(`/edit/:id`, (req, res) => res.render(`offers/edit`));
 offersRouter.get(`/:id`, (req, res) => res.send(`${ROOT}${req.url}`));
 
 module.exports = offersRouter;
