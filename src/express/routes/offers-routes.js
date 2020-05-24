@@ -8,7 +8,7 @@ const ROOT = `/offers`;
 offersRouter.get(`/category/:id`, (req, res) =>
   res.send(`${ROOT}${req.url}`)
 );
-offersRouter.get(`/add`, (req, res) => res.send(`${ROOT}/add`));
+offersRouter.get(`/add`, (req, res) => res.render(`offers/add`));
 offersRouter.get(`/edit/:id`, (req, res) => res.send(`${ROOT}${req.url}`));
 offersRouter.get(`/:id`, (req, res) => res.send(`${ROOT}${req.url}`));
 
