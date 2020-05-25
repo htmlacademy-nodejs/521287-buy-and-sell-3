@@ -38,7 +38,45 @@
   </header>
 
   <main class="page-content">
-    
+    <section class="sign-up">
+      <form class="sign-up__form form" action="#" method="post" enctype="multipart/form-data" autocomplete="off">
+        <div class="sign-up__title">
+          <h2>Регистрация</h2>
+          <a class="sign-up__link" href="login.html">Вход</a>
+        </div>
+        <div class="sign-up__avatar-container js-preview-container">
+          <div class="sign-up__avatar js-preview"></div>
+          <div class="sign-up__field-avatar">
+            <input type="file" id="avatar" name="avatar" class="visually-hidden js-file-field">
+            <label for="avatar">
+              <span class="sign-up__text-upload">Загрузить аватар…</span>
+              <span class="sign-up__text-another">Загрузить другой аватар…</span>
+            </label>
+          </div>
+        </div>
+        <div class="form__field sign-up__field">
+          <input type="text" name="user-name" id="user-name" class="js-field" required="">
+          <label for="user-name">Имя и фамилия</label>
+          <span>Обязательное поле</span>
+        </div>
+        <div class="form__field sign-up__field">
+          <input type="email" name="user-email" id="user-email" class="js-field" required="">
+          <label for="user-email">Эл. почта</label>
+          <span>Обязательное поле</span>
+        </div>
+        <div class="form__field sign-up__field">
+          <input type="password" name="user-password" id="user-password" class="js-field" required="">
+          <label for="user-password">Пароль</label>
+          <span>Обязательное поле</span>
+        </div>
+        <div class="form__field sign-up__field">
+          <input type="password" name="user-password-again" id="user-password-again" class="js-field" required="">
+          <label for="user-password-again">Пароль еще раз</label>
+          <span>Обязательное поле</span>
+        </div>
+        <button class="sign-up__button btn btn--medium js-button" type="submit" disabled="">Создать аккаунт</button>
+      </form>
+    </section>
   </main>
 
   <footer class="page-footer">
