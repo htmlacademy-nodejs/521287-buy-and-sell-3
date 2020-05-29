@@ -10,7 +10,10 @@ const getRandomInt = (min, max) => {
 const shuffle = (someArray) => {
   for (let i = someArray.length - 1; i > 0; i--) {
     const randomPosition = Math.floor(Math.random() * i);
-    [someArray[i], someArray[randomPosition]] = [someArray[randomPosition], someArray[i]];
+    [someArray[i], someArray[randomPosition]] = [
+      someArray[randomPosition],
+      someArray[i],
+    ];
   }
 
   return someArray;
@@ -18,27 +21,8 @@ const shuffle = (someArray) => {
 
 const getPictureFileName = (number) => `item${(`0` + number).slice(-2)}.jpg`;
 
-const sendResponse = (res, statusCode, message) => {
-  const template = `
-    <!doctype html>
-    <html lang="ru">
-      <head>
-        <title>With Love from Node</title>
-      </head>
-      <body>${message}</body>
-    </html>`.trim();
-
-  res.statusCode = statusCode;
-  res.writeHead(statusCode, {
-    'Content-Type': `text/html; charset=UTF-8`,
-  });
-
-  res.end(template);
-};
-
 module.exports = {
   getRandomInt,
   shuffle,
   getPictureFileName,
-  sendResponse,
 };
