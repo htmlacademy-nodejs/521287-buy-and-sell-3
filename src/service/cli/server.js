@@ -26,6 +26,7 @@ module.exports = {
       } catch (err) {
         console.error(chalk.red(`Error with "/offers" route: ${err}`));
         res.status(HttpCode.INTERNAL_SERVER_ERROR);
+        res.end();
       }
     });
 
