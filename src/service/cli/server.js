@@ -30,16 +30,14 @@ module.exports = {
       }
     });
 
-    app.use((req, res) => res
-    .status(HttpCode.NOT_FOUND)
-    .send(`Not found`));
+    app.use((req, res) => res.status(HttpCode.NOT_FOUND).send(`Not found`));
 
-    app.listen(port, (err) => {
-      if (err) {
+    app
+      .listen(port, () => {
+        console.info(chalk.green(`Ожидаю соединение на ${port}`));
+      })
+      .on(`error`, (err) => {
         console.error(chalk.red(`Ошибка при создании сервера ${err}`));
-      }
-
-      console.info(chalk.green(`Ожидаю соединение на ${port}`));
-    });
+      });
   },
 };
