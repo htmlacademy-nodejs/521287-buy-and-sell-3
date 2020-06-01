@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const {readFile, writeFile} = require(`fs`).promises;
 const chalk = require(`chalk`);
