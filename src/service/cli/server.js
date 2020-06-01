@@ -24,7 +24,7 @@ module.exports = {
         const mocks = JSON.parse(fileContent);
         res.json(mocks);
       } catch (err) {
-        console.error(`Error with "/offers" route: ${err}`);
+        console.error(chalk.red(`Error with "/offers" route: ${err}`));
         res.status(HttpCode.INTERNAL_SERVER_ERROR);
       }
     });
@@ -35,7 +35,7 @@ module.exports = {
 
     app.listen(port, (err) => {
       if (err) {
-        console.error(`Ошибка при создании сервера ${err}`);
+        console.error(chalk.red(`Ошибка при создании сервера ${err}`));
       }
 
       console.info(chalk.green(`Ожидаю соединение на ${port}`));
