@@ -38,7 +38,7 @@ const PictureRestrict = {
 const generateOffers = (count, titles, categories, sentences, comments) => {
   return new Array(count).fill({}).map(() => {
     const id = nanoid(MAX_ID_LENGTH);
-    const category = categories[getRandomInt(0, categories.length - 1)];
+    const category = [categories[getRandomInt(0, categories.length - 1)]];
     const description = shuffle(sentences).slice(1, 5).join(` `);
     const picture = getPictureFileName(
         getRandomInt(PictureRestrict.min, PictureRestrict.max)
