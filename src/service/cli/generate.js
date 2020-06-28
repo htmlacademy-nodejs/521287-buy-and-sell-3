@@ -1,10 +1,10 @@
 'use strict';
 
 const {readFile, writeFile} = require(`fs`).promises;
-const {nanoid} = require(`nanoid`);
 const chalk = require(`chalk`);
 
 const {
+  generateId,
   getRandomInt,
   shuffle,
   getPictureFileName,
@@ -17,7 +17,6 @@ const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
-const MAX_ID_LENGTH = 6;
 const MAX_COMMENTS = 4;
 
 const OfferType = {
@@ -37,7 +36,7 @@ const PictureRestrict = {
 
 const generateOffers = (count, titles, categories, sentences, comments) => {
   return new Array(count).fill({}).map(() => {
-    const id = nanoid(MAX_ID_LENGTH);
+    const id = generateId();
     const category = [categories[getRandomInt(0, categories.length - 1)]];
     const description = shuffle(sentences).slice(1, 5).join(` `);
     const picture = getPictureFileName(

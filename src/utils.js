@@ -4,6 +4,8 @@ const {nanoid} = require(`nanoid`);
 
 const MAX_ID_LENGTH = 6;
 
+const generateId = () => nanoid(MAX_ID_LENGTH);
+
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -29,7 +31,7 @@ const generateComments = (count, comments) =>
   Array(count)
     .fill({})
     .map(() => {
-      const id = nanoid(MAX_ID_LENGTH);
+      const id = generateId();
       const text = shuffle(comments).slice(0, getRandomInt(1, 3)).join(` `);
 
       return {
@@ -39,6 +41,7 @@ const generateComments = (count, comments) =>
     });
 
 module.exports = {
+  generateId,
   getRandomInt,
   shuffle,
   getPictureFileName,
