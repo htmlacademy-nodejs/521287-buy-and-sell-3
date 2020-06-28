@@ -12,6 +12,6 @@ module.exports = (app, service) => {
   route.get(`/`, (req, res) => {
     const categories = service.findAll();
 
-    res.status(HttpCode.OK).json(categories);
+    return res.status(HttpCode.OK).json(categories);
   });
 };

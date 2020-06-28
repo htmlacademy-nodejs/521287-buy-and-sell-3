@@ -1,0 +1,68 @@
+GET http://localhost:3000/api/offers HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/offers/Dhf3JO HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3000/api/offers HTTP/1.1
+Content-Type: application/json
+
+{
+  "categories": [
+    "Куплю пазлы с рисунком кота"
+  ],
+  "description": "Книги Разное Животные Спорт",
+  "picture": "item14.jpg",
+  "title": "Продаю с болью в сердце...",
+  "type": "offer",
+  "sum": 76809,
+  "comments": [
+    {
+      "id": "AAAAA1",
+      "text": "Почему в таком ужасном состоянии? Оплата наличными или перевод на карту?"
+    },
+    {
+      "id": "AAAAA2",
+      "text": "С чем связана продажа? Почему так дешёво? Продаю в связи с переездом. Отрываю от сердца."
+    },
+    {
+      "id": "AAAAAA3",
+      "text": "А сколько игр в комплекте? Вы что?! В магазине дешевле."
+    }
+  ]
+}
+
+###
+PUT http://localhost:3000/api/offers/Dhf3JO HTTP/1.1
+Content-Type: application/json
+
+{
+  "categories": [
+    "Куплю рисунки кота"
+  ],
+  "description": "Книги Разное Животные Спорт",
+  "picture": "item14.jpg",
+  "title": "Продаю с болью в сердце...",
+  "type": "offer",
+  "sum": 76809,
+  "comments": [
+    {
+      "id": "AAAAA1",
+      "text": "Почему в таком ужасном состоянии? Оплата наличными или перевод на карту?"
+    },
+    {
+      "id": "AAAAA2",
+      "text": "С чем связана продажа? Почему так дешёво? Продаю в связи с переездом. Отрываю от сердца."
+    },
+    {
+      "id": "AAAAAA3",
+      "text": "А сколько игр в комплекте? Вы что?! В магазине дешевле."
+    }
+  ]
+}
+
+###
+DELETE http://localhost:3000/api/offers/Dhf3JO HTTP/1.1
+Content-Type: application/json
