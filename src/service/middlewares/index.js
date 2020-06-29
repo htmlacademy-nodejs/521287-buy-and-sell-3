@@ -1,11 +1,11 @@
 'use strict';
 
 const offerValidator = require(`./offerValidator`);
-const offerExists = require(`./offerExists`);
+const offerExist = require(`./offerExist`);
 const commentValidator = require(`./commentValidator`);
 
 module.exports = {
   offerValidator,
-  offerExists,
+  offerExist,
   commentValidator,
 };

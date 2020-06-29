@@ -5,7 +5,7 @@ const {Router} = require(`express`);
 const {HttpCode} = require(`../../constants`);
 const {
   offerValidator,
-  offerExists,
+  offerExist,
   commentValidator,
 } = require(`../middlewares`);
 
@@ -20,7 +20,7 @@ module.exports = (app, service, commentService) => {
     return res.status(HttpCode.OK).json(categories);
   });
 
-  route.get(`/:offerId`, offerExists(service), (req, res) => {
+  route.get(`/:offerId`, offerExist(service), (req, res) => {
     const {offer} = res.locals;
 
     return res.status(HttpCode.OK).json(offer);
@@ -45,7 +45,7 @@ module.exports = (app, service, commentService) => {
     return res.status(HttpCode.OK).json(offer);
   });
 
-  route.delete(`/:offerId`, offerExists(service), (req, res) => {
+  route.delete(`/:offerId`, offerExist(service), (req, res) => {
     const {offerId} = req.params;
     const offer = service.drop(offerId);
 
@@ -58,7 +58,7 @@ module.exports = (app, service, commentService) => {
     return res.status(HttpCode.OK).json(offer);
   });
 
-  route.get(`/:offerId/comments`, offerExists(service), (req, res) => {
+  route.get(`/:offerId/comments`, offerExist(service), (req, res) => {
     const {offer} = res.locals;
     const comments = commentService.findAll(offer);
 
@@ -67,7 +67,7 @@ module.exports = (app, service, commentService) => {
 
   route.delete(
       `/:offerId/comments/:commentId`,
-      offerExists(service),
+      offerExist(service),
       (req, res) => {
         const {offer} = res.locals;
         const comments = commentService.findAll(offer);
@@ -78,7 +78,7 @@ module.exports = (app, service, commentService) => {
 
   route.post(
       `/:offerId/comments`,
-      [offerExists(service), commentValidator],
+      [offerExist(service), commentValidator],
       (req, res) => {
         const {offer} = res.locals;
         const comments = commentService.findAll(offer);
