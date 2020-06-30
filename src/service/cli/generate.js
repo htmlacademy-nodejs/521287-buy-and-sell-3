@@ -3,13 +3,21 @@
 const {readFile, writeFile} = require(`fs`).promises;
 const chalk = require(`chalk`);
 
-const {getRandomInt, shuffle, getPictureFileName} = require(`../../utils`);
+const {
+  generateId,
+  getRandomInt,
+  shuffle,
+  getPictureFileName,
+  generateComments,
+} = require(`../../utils`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
 const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
+const FILE_COMMENTS_PATH = `./data/comments.txt`;
+const MAX_COMMENTS = 4;
 
 const OfferType = {
   offer: `offer`,
@@ -26,11 +34,10 @@ const PictureRestrict = {
   max: 16,
 };
 
-const generateOffers = (count, titles, categories, sentences) => {
-  const offers = [];
-
-  for (let i = 0; i < count; i++) {
-    const category = categories[getRandomInt(0, categories.length - 1)];
+const generateOffers = (count, titles, categories, sentences, comments) => {
+  return new Array(count).fill({}).map(() => {
+    const id = generateId();
+    const category = [categories[getRandomInt(0, categories.length - 1)]];
     const description = shuffle(sentences).slice(1, 5).join(` `);
     const picture = getPictureFileName(
         getRandomInt(PictureRestrict.min, PictureRestrict.max)
@@ -40,18 +47,22 @@ const generateOffers = (count, titles, categories, sentences) => {
       getRandomInt(0, Object.keys(OfferType).length - 1)
     ];
     const sum = getRandomInt(SumRestrict.min, SumRestrict.max);
+    const commentList = generateComments(
+        getRandomInt(1, MAX_COMMENTS),
+        comments
+    );
 
-    offers.push({
+    return {
+      id,
       category,
       description,
       picture,
       title,
       type,
       sum,
-    });
-  }
-
-  return offers;
+      comments: commentList,
+    };
+  });
 };
 
 const readContent = async (filePath) => {
@@ -69,16 +80,17 @@ const readContent = async (filePath) => {
 module.exports = {
   name: `--generate`,
   async run(args) {
-    const [sentences, titles, categories] = await Promise.all([
+    const [sentences, titles, categories, comments] = await Promise.all([
       await readContent(FILE_SENTENCES_PATH),
       await readContent(FILE_TITLES_PATH),
       await readContent(FILE_CATEGORIES_PATH),
+      await readContent(FILE_COMMENTS_PATH),
     ]);
 
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
     const content = JSON.stringify(
-        generateOffers(countOffer, sentences, titles, categories),
+        generateOffers(countOffer, sentences, titles, categories, comments),
         null,
         2
     );

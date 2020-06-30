@@ -1,0 +1,15 @@
+###
+GET http://localhost:3000/api/offers/TWCLPw/comments HTTP/1.1
+Content-Type: application/json
+
+###
+DELETE http://localhost:3000/api/offers/TWCLPw/comments/L3nNMp HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3000/api/offers/TWCLPw/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Комментарий"
+}
