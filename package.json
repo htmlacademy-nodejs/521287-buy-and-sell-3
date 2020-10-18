@@ -2,15 +2,6 @@
   "name": "521287-buy-and-sell-3",
   "version": "1.0.0",
   "description": "Куплю. Продам",
-  "main": "./src/service/service.js",
-  "scripts": {
-    "start": "node ./src/service/service.js",
-    "start.dev": "nodemon ./src/service/service.js",
-    "start-front-server": "nodemon ./src/express/index.js",
-    "test": "jest --watchAll",
-    "test::eslint": "npm run eslint",
-    "eslint": "eslint --ext .js src/"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ilyasidorchik/521287-buy-and-sell-3.git"
@@ -21,18 +12,29 @@
     "url": "https://github.com/ilyasidorchik/521287-buy-and-sell-3/issues"
   },
   "homepage": "https://github.com/ilyasidorchik/521287-buy-and-sell-3#readme",
-  "devDependencies": {
-    "eslint": "6.8.0",
-    "eslint-config-htmlacademy": "0.5.2",
-    "jest": "26.4.2",
-    "nodemon": "2.0.3",
-    "pug-lint": "2.6.0",
-    "supertest": "4.0.2"
+  "main": "./src/service/service.js",
+  "scripts": {
+    "start": "node ./src/service/service.js",
+    "start.dev": "nodemon ./src/service/service.js",
+    "start-front-server": "nodemon ./src/express/index.js",
+    "eslint": "npm run eslint",
+    "jest": "npm run jest",
+    "test::rest": "jest --watchAll",
+    "test::eslint": "eslint --ext .js src/",
+    "test": "npm run test::eslint && npm run jest"
   },
   "dependencies": {
-    "chalk": "4.0.0",
+    "chalk": "4.1.0",
     "express": "4.17.1",
-    "nanoid": "3.1.10",
-    "pug": "2.0.4"
+    "nanoid": "3.1.12",
+    "pug": "3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "7.11.0",
+    "eslint-config-htmlacademy": "0.6.0",
+    "jest": "26.5.3",
+    "nodemon": "2.0.5",
+    "pug-lint": "2.6.0",
+    "supertest": "5.0.0"
   }
 }
