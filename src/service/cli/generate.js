@@ -90,7 +90,7 @@ module.exports = {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
     const content = JSON.stringify(
-        generateOffers(countOffer, sentences, titles, categories, comments),
+        generateOffers(countOffer, titles, categories, sentences, comments),
         null,
         2
     );
