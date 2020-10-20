@@ -2,12 +2,12 @@
 
 const {Router} = require(`express`);
 
-const {HttpCode} = require(`../../constants`);
+const {HttpCode} = require(`../../../constants`);
 const {
   offerValidator,
   offerExist,
   commentValidator,
-} = require(`../middlewares`);
+} = require(`../../middlewares`);
 
 const route = new Router();
 
@@ -32,37 +32,39 @@ module.exports = (app, service, commentService) => {
     return res.status(HttpCode.CREATED).json(offer);
   });
 
-  route.put(`/:offerId`, (req, res) => {
+  route.put(`/:offerId`, offerValidator, (req, res) => {
     const {offerId} = req.params;
-    const offer = service.update(offerId);
+    const existOffer = service.findOne(offerId);
 
-    if (!offer) {
+    if (!existOffer) {
       return res
-        .status(HttpCode.BAD_REQUEST)
+        .status(HttpCode.NOT_FOUND)
         .send(`Offer with ${offerId} isn't found`);
     }
 
-    return res.status(HttpCode.OK).json(offer);
+    const updatedOfffer = service.update(offerId, req.body);
+
+    return res.status(HttpCode.OK).json(updatedOfffer);
   });
 
-  route.delete(`/:offerId`, offerExist(service), (req, res) => {
+  route.delete(`/:offerId`, (req, res) => {
     const {offerId} = req.params;
-    const offer = service.drop(offerId);
+    const deletedOffer = service.drop(offerId);
 
-    if (!offer) {
+    if (!deletedOffer) {
       return res
-        .status(HttpCode.BAD_REQUEST)
+        .status(HttpCode.NOT_FOUND)
         .send(`Offer with ${offerId} isn't found`);
     }
 
-    return res.status(HttpCode.OK).json(offer);
+    return res.status(HttpCode.OK).json(deletedOffer);
   });
 
   route.get(`/:offerId/comments`, offerExist(service), (req, res) => {
     const {offer} = res.locals;
     const comments = commentService.findAll(offer);
 
-    res.status(HttpCode.OK).json(comments);
+    return res.status(HttpCode.OK).json(comments);
   });
 
   route.delete(
@@ -70,9 +72,16 @@ module.exports = (app, service, commentService) => {
       offerExist(service),
       (req, res) => {
         const {offer} = res.locals;
-        const comments = commentService.findAll(offer);
+        const {commentId} = req.params;
+        const deletedComment = commentService.drop(offer, commentId);
 
-        res.status(HttpCode.OK).json(comments);
+        if (!deletedComment) {
+          return res
+            .status(HttpCode.NOT_FOUND)
+            .send(`Comment ${commentId} isn't found`);
+        }
+
+        return res.status(HttpCode.OK).json(deletedComment);
       }
   );
 
@@ -81,9 +90,9 @@ module.exports = (app, service, commentService) => {
       [offerExist(service), commentValidator],
       (req, res) => {
         const {offer} = res.locals;
-        const comments = commentService.findAll(offer);
+        const comment = commentService.create(offer, req.body);
 
-        res.status(HttpCode.OK).json(comments);
+        return res.status(HttpCode.CREATED).json(comment);
       }
   );
 };

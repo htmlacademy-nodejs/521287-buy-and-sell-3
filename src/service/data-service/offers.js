@@ -8,10 +8,10 @@ class OfferService {
   }
 
   create(offer) {
-    const newOffer = Object
-      .assign({id: generateId(), comments: []}, offer);
+    const newOffer = Object.assign({id: generateId(), comments: []}, offer);
 
     this._offers.push(newOffer);
+
     return newOffer;
   }
 
@@ -23,6 +23,7 @@ class OfferService {
     }
 
     this._offers = this._offers.filter((item) => item.id !== id);
+
     return offer;
   }
 
@@ -35,12 +36,10 @@ class OfferService {
   }
 
   update(id, offer) {
-    const oldOffer = this._offers
-      .find((item) => item.id === id);
+    const oldOffer = this._offers.find((item) => item.id === id);
 
     return Object.assign(oldOffer, offer);
   }
-
 }
 
 module.exports = OfferService;
