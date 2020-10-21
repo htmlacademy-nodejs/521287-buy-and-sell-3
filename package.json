@@ -14,8 +14,8 @@
   "homepage": "https://github.com/ilyasidorchik/521287-buy-and-sell-3#readme",
   "main": "./src/service/service.js",
   "scripts": {
-    "start": "node ./src/service/service.js",
-    "start.dev": "nodemon ./src/service/service.js",
+    "start": "cross-env NODE_ENV=production node ./src/service/service.js",
+    "start::debug": "cross-env NODE_ENV=development nodemon ./src/service/service.js",
     "start-front-server": "nodemon ./src/express/index.js",
     "eslint": "npm run eslint",
     "jest": "npm run jest",
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "chalk": "4.1.0",
+    "cross-env": "7.0.2",
     "express": "4.17.1",
     "nanoid": "3.1.12",
     "pino": "6.7.0",
