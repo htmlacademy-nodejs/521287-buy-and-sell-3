@@ -1,31 +1,35 @@
 'use strict';
 
 const express = require(`express`);
-const {readFile} = require(`fs`).promises;
-const chalk = require(`chalk`);
 
 const {HttpCode, API_PREFIX} = require(`../constants`);
+const {getLogger} = require(`./lib/logger`);
 const routes = require(`./api`);
 
-const FILENAME = `mocks.json`;
-
 const app = express();
+const logger = getLogger({name: `api`});
 
 app.use(express.json());
-app.use(API_PREFIX, routes);
 
-app.get(`/offers`, async (req, res) => {
-  try {
-    const fileContent = await readFile(FILENAME);
-    const mocks = JSON.parse(fileContent);
-    res.json(mocks);
-  } catch (err) {
-    console.error(chalk.red(`Error with "/offers" route: ${err}`));
-    res.status(HttpCode.INTERNAL_SERVER_ERROR);
-    res.end();
-  }
+app.use((req, res, next) => {
+  logger.debug(`Request on route ${req.url}`);
+
+  res.on(`finish`, () => {
+    logger.info(`Response status code was ${res.statusCode}`);
+  });
+
+  next();
 });
 
-app.use((req, res) => res.status(HttpCode.NOT_FOUND).send(`Not found`));
+app.use(API_PREFIX, routes);
+
+app.use((req, res) => {
+  res.status(HttpCode.NOT_FOUND).send(`Not Found`);
+  logger.error(`Route wasn't found: ${req.url}`);
+});
+
+app.use((err, _req, _res, _next)=> {
+  logger.error(`An error's occured on processing request: ${err.message}`);
+});
 
 module.exports = app;
