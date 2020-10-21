@@ -1,10 +1,11 @@
 'use strict';
 
-const chalk = require(`chalk`);
-
+const {getLogger} = require(`../lib/logger`);
 const app = require(`../app`);
 
 const DEFAULT_PORT = 3000;
+
+const logger = getLogger({name: `api`});
 
 module.exports = {
   name: `--server`,
@@ -12,12 +13,17 @@ module.exports = {
     const [customPort] = args;
     const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;
 
-    app
-      .listen(port, () => {
-        console.info(chalk.green(`Ожидаю соединение на ${port}`));
-      })
-      .on(`error`, (err) => {
-        console.error(chalk.red(`Ошибка при создании сервера ${err}`));
+    try {
+      app.listen(port, (err) => {
+        if (err) {
+          return logger.error(`An error occured on server creation: ${err.message}`);
+        }
+
+        return logger.info(`Listening to connections on ${port}`);
       });
+    } catch (err) {
+      logger.error(`An error occured: ${err.message}`);
+      process.exit(1);
+    }
   },
 };
