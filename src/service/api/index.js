@@ -2,9 +2,9 @@
 
 const {Router} = require(`express`);
 
-const categories = require(`./categories`);
-const offers = require(`./offers`);
-const search = require(`./search`);
+const categories = require(`./categories/categories`);
+const offers = require(`./offers/offers`);
+const search = require(`./search/search`);
 const getMockData = require(`../lib/get-mock-data`);
 const {
   CategoryService,

@@ -15,6 +15,11 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
+const Env = {
+  DEVELOPMENT: `development`,
+  PRODUCTION: `production`
+};
+
 const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
 const API_PREFIX = `/api`;
@@ -22,6 +27,7 @@ const API_PREFIX = `/api`;
 module.exports = {
   ExitCode,
   HttpCode,
+  Env,
   DEFAULT_COMMAND,
   USER_ARGV_INDEX,
   API_PREFIX,

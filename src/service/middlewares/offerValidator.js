@@ -3,10 +3,10 @@
 const {HttpCode} = require(`../../constants`);
 
 const offerKeys = [
-  `categories`,
+  `title`,
+  `category`,
   `description`,
   `picture`,
-  `title`,
   `type`,
   `sum`,
 ];

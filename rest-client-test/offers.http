@@ -11,12 +11,12 @@ POST http://localhost:3000/api/offers HTTP/1.1
 Content-Type: application/json
 
 {
-  "categories": [
-    "Куплю пазлы с рисунком кота"
+  "title": "Куплю пазлы с рисунком кота",
+  "category": [
+    "Разное"
   ],
-  "description": "Книги Разное Животные Спорт",
+  "description": "Продаю с болью в сердце...",
   "picture": "item14.jpg",
-  "title": "Продаю с болью в сердце...",
   "type": "offer",
   "sum": 76809,
   "comments": [
@@ -40,12 +40,12 @@ PUT http://localhost:3000/api/offers/Dhf3JO HTTP/1.1
 Content-Type: application/json
 
 {
-  "categories": [
-    "Куплю рисунки кота"
+  "title": "Куплю рисунки кота",
+  "category": [
+    "Разное"
   ],
-  "description": "Книги Разное Животные Спорт",
+  "description": "Продаю с болью в сердце...",
   "picture": "item14.jpg",
-  "title": "Продаю с болью в сердце...",
   "type": "offer",
   "sum": 76809,
   "comments": [
