@@ -1,11 +1,11 @@
 'use strict';
 
 const pino = require(`pino`);
+
 const {Env} = require(`../../constants`);
 
-// TODO: Get logs in directory
-const LOG_FILE = `./logs/api.log`;
-const isDevMode = process.env.NODE_ENV = Env.DEVELOPMENT;
+const LOG_FILE = `./src/service/logs/api.log`;
+const isDevMode = process.env.NODE_ENV === Env.DEVELOPMENT;
 const defaultLogLevel = isDevMode ? `info` : `error`;
 const logStream = isDevMode ? process.stdout : pino.destination(LOG_FILE);
 
