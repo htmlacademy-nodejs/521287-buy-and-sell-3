@@ -8,9 +8,9 @@ const ROOT = `main`;
 const mainRouter = new Router();
 
 mainRouter.get(`/`, async (req, res) => {
-  const offers = await api.getOffers();
+  const _offers = await api.getOffers();
 
-  res.render(`${ROOT}/main`, {offers});
+  res.render(`${ROOT}/main`, {_offers});
 });
 
 mainRouter.get(`/sign-up`, (req, res) => res.render(`${ROOT}/sign-up`));
