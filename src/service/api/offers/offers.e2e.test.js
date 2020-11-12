@@ -184,7 +184,6 @@ describe(`DELETE /offers/{offerId}`, () => {
       expect(response.body.id).toBe(`M3HI0J`);
     });
 
-    // TODO: Fix test
     it(`deletes certain offer`, async () => {
       const offerResponse = await request(app).get(`/offers`);
 
@@ -193,9 +192,9 @@ describe(`DELETE /offers/{offerId}`, () => {
   });
 
   describe(`−`, () => {
-    it(`responds with 400 status code when some required property is absent`, async () => {
+    it(`responds with 404 status code when offer doesn't exist`, async () => {
       const app = createAPI();
-      const response = await request(app).delete(`/offers/M3HI0J`);
+      const response = await request(app).delete(`/offers/NONEXISTENT`);
 
       expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
     });
@@ -301,7 +300,6 @@ describe(`DELETE /offers/{offerId}/comments/{commentId}`, () => {
       expect(response.body.id).toBe(`hbitvV`);
     });
 
-    // TODO: Fix test
     it(`deletes certain comment`, async () => {
       const commentResponse = await request(app).get(`/offers/NOdhjw/comments`);
 

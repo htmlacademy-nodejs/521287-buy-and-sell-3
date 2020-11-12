@@ -9,15 +9,15 @@ const {
   commentValidator,
 } = require(`../../middlewares`);
 
-const route = new Router();
-
 module.exports = (app, service, commentService) => {
+  const route = new Router();
+
   app.use(`/offers`, route);
 
   route.get(`/`, (req, res) => {
-    const categories = service.findAll();
+    const offers = service.findAll();
 
-    return res.status(HttpCode.OK).json(categories);
+    return res.status(HttpCode.OK).json(offers);
   });
 
   route.get(`/:offerId`, offerExist(service), (req, res) => {
@@ -77,8 +77,8 @@ module.exports = (app, service, commentService) => {
 
         if (!deletedComment) {
           return res
-            .status(HttpCode.NOT_FOUND)
-            .send(`Comment ${commentId} isn't found`);
+          .status(HttpCode.NOT_FOUND)
+          .send(`Comment ${commentId} isn't found`);
         }
 
         return res.status(HttpCode.OK).json(deletedComment);
