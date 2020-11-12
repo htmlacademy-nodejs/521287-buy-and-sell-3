@@ -17,7 +17,7 @@ const HttpCode = {
 
 const Env = {
   DEVELOPMENT: `development`,
-  PRODUCTION: `production`
+  PRODUCTION: `production`,
 };
 
 const DEFAULT_COMMAND = `--help`;
