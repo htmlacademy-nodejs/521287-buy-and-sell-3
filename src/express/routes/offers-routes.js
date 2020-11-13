@@ -2,13 +2,25 @@
 
 const {Router} = require(`express`);
 
+const api = require(`../api`).getAPI();
+
 const ROOT = `offers`;
 
 const offersRouter = new Router();
 
 offersRouter.get(`/category/:id`, (req, res) => res.render(`${ROOT}/category`));
 offersRouter.get(`/add`, (req, res) => res.render(`${ROOT}/add`));
-offersRouter.get(`/edit/:id`, (req, res) => res.render(`${ROOT}/edit`));
+
+offersRouter.get(`/edit/:id`, async (req, res) => {
+  const {id} = req.params;
+
+  const offer = await api.getOffer(id);
+  const categories = await api.getCategories();
+
+  res.render(`${ROOT}/edit`, {offer, categories});
+});
+
 offersRouter.get(`/:id`, (req, res) => res.render(`${ROOT}/offer`));
+
 
 module.exports = offersRouter;
