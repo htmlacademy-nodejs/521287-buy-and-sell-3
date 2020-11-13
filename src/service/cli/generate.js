@@ -34,10 +34,10 @@ const PictureRestrict = {
   max: 16,
 };
 
-const generateOffers = (count, titles, categories, sentences, comments) => {
+const generateOffers = (count, titles, categoryList, sentences, commentList) => {
   return new Array(count).fill({}).map(() => {
     const id = generateId();
-    const category = [categories[getRandomInt(0, categories.length - 1)]];
+    const categories = [categoryList[getRandomInt(0, categoryList.length - 1)]];
     const description = shuffle(sentences).slice(1, 5).join(` `);
     const picture = getPictureFileName(
         getRandomInt(PictureRestrict.min, PictureRestrict.max)
@@ -47,20 +47,20 @@ const generateOffers = (count, titles, categories, sentences, comments) => {
       getRandomInt(0, Object.keys(OfferType).length - 1)
     ];
     const sum = getRandomInt(SumRestrict.min, SumRestrict.max);
-    const commentList = generateComments(
+    const comments = generateComments(
         getRandomInt(1, MAX_COMMENTS),
-        comments
+        commentList
     );
 
     return {
       id,
-      category,
+      categories,
       description,
       picture,
       title,
       type,
       sum,
-      comments: commentList,
+      comments,
     };
   });
 };
