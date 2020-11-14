@@ -35,34 +35,38 @@ const PictureRestrict = {
 };
 
 const generateOffers = (count, titles, categoryList, sentences, commentList) =>
-  Array(count).fill({}).map(() => {
-    const id = generateId();
-    const categories = [categoryList[getRandomInt(0, categoryList.length - 1)]];
-    const description = shuffle(sentences).slice(1, 5).join(` `);
-    const picture = getPictureFileName(
-        getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)
-    );
-    const title = titles[getRandomInt(0, titles.length - 1)];
-    const type = Object.values(OfferType)[
-      getRandomInt(0, Object.values(OfferType).length - 1)
-    ];
-    const sum = getRandomInt(SumRestrict.MIN, SumRestrict.MAX);
-    const comments = generateComments(
-        getRandomInt(1, MAX_COMMENTS),
-        commentList
-    );
+  Array(count)
+    .fill({})
+    .map(() => {
+      const id = generateId();
+      const categories = [
+        categoryList[getRandomInt(0, categoryList.length - 1)],
+      ];
+      const description = shuffle(sentences).slice(1, 5).join(` `);
+      const picture = getPictureFileName(
+          getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)
+      );
+      const title = titles[getRandomInt(0, titles.length - 1)];
+      const type = Object.values(OfferType)[
+        getRandomInt(0, Object.values(OfferType).length - 1)
+      ];
+      const sum = getRandomInt(SumRestrict.MIN, SumRestrict.MAX);
+      const comments = generateComments(
+          getRandomInt(1, MAX_COMMENTS),
+          commentList
+      );
 
-    return {
-      id,
-      categories,
-      description,
-      picture,
-      title,
-      type,
-      sum,
-      comments,
-    };
-  });
+      return {
+        id,
+        categories,
+        description,
+        picture,
+        title,
+        type,
+        sum,
+        comments,
+      };
+    });
 
 const readContent = async (filePath) => {
   try {

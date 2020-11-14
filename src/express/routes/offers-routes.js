@@ -14,8 +14,10 @@ offersRouter.get(`/add`, (req, res) => res.render(`${ROOT}/add`));
 offersRouter.get(`/edit/:id`, async (req, res) => {
   const {id} = req.params;
 
-  const offer = await api.getOffer(id);
-  const categories = await api.getCategories();
+  const [offer, categories] = await Promise.all([
+    api.getOffer(id),
+    api.getCategories(),
+  ]);
 
   res.render(`${ROOT}/edit`, {offer, categories});
 });
