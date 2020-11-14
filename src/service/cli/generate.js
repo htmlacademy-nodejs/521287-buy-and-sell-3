@@ -20,33 +20,33 @@ const FILE_COMMENTS_PATH = `./data/comments.txt`;
 const MAX_COMMENTS = 4;
 
 const OfferType = {
-  offer: `offer`,
-  sale: `sale`,
+  OFFER: `OFFER`,
+  SALE: `SALE`,
 };
 
 const SumRestrict = {
-  min: 1000,
-  max: 100000,
+  MIN: 1000,
+  MAX: 100000,
 };
 
 const PictureRestrict = {
-  min: 1,
-  max: 16,
+  MIN: 1,
+  MAX: 16,
 };
 
-const generateOffers = (count, titles, categoryList, sentences, commentList) => {
-  return new Array(count).fill({}).map(() => {
+const generateOffers = (count, titles, categoryList, sentences, commentList) =>
+  Array(count).fill({}).map(() => {
     const id = generateId();
     const categories = [categoryList[getRandomInt(0, categoryList.length - 1)]];
     const description = shuffle(sentences).slice(1, 5).join(` `);
     const picture = getPictureFileName(
-        getRandomInt(PictureRestrict.min, PictureRestrict.max)
+        getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)
     );
     const title = titles[getRandomInt(0, titles.length - 1)];
-    const type = Object.keys(OfferType)[
-      getRandomInt(0, Object.keys(OfferType).length - 1)
+    const type = Object.values(OfferType)[
+      getRandomInt(0, Object.values(OfferType).length - 1)
     ];
-    const sum = getRandomInt(SumRestrict.min, SumRestrict.max);
+    const sum = getRandomInt(SumRestrict.MIN, SumRestrict.MAX);
     const comments = generateComments(
         getRandomInt(1, MAX_COMMENTS),
         commentList
@@ -63,7 +63,6 @@ const generateOffers = (count, titles, categoryList, sentences, commentList) => 
       comments,
     };
   });
-};
 
 const readContent = async (filePath) => {
   try {

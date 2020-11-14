@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const {Router} = require(`express`);
 
@@ -21,6 +21,5 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
 });
 
 offersRouter.get(`/:id`, (req, res) => res.render(`${ROOT}/offer`));
-
 
 module.exports = offersRouter;
