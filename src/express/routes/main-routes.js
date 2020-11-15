@@ -14,8 +14,21 @@ mainRouter.get(`/`, async (req, res) => {
   res.render(`${ROOT}/main`, {_offers});
 });
 
+mainRouter.get(`/search`, async (req, res) => {
+  let result = [];
+
+  try {
+    const {search} = req.query;
+
+    result = await api.search(search);
+  } catch (error) {
+    result = [];
+  }
+
+  res.render(`${ROOT}/search`, {result});
+});
+
 mainRouter.get(`/sign-up`, (req, res) => res.render(`${ROOT}/sign-up`));
 mainRouter.get(`/login`, (req, res) => res.render(`${ROOT}/login`));
-mainRouter.get(`/search`, (req, res) => res.render(`${ROOT}/search`));
 
 module.exports = mainRouter;
