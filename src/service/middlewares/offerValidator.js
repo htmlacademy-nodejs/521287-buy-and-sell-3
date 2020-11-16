@@ -4,7 +4,7 @@ const {HttpCode} = require(`../../constants`);
 
 const offerKeys = [
   `title`,
-  `category`,
+  `categories`,
   `description`,
   `picture`,
   `type`,
