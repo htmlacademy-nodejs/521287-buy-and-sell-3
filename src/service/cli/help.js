@@ -13,7 +13,7 @@ module.exports = {
     Команды:
     --version             выводит номер версии
     --help                печатает этот текст
-    --generate <count>    формирует файл mocks.json
+    --fill-db <count>     наполняет базу данных
     --server <port>       запускает ХТТП-сервер
     `;
 
