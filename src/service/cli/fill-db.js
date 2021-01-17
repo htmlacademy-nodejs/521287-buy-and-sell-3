@@ -1,7 +1,6 @@
 'use strict';
 
 const {readFile} = require(`fs`).promises;
-const chalk = require(`chalk`);
 
 const {
   getRandomInt,
@@ -36,7 +35,7 @@ const PictureRestrict = {
   MAX: 16,
 };
 
-const logger = getLogger({name: `filldb`});
+const logger = getLogger({name: `fill-db`});
 
 const generateOffers = (count, titles, categoryList, sentences, commentList) =>
   Array(count)
@@ -72,9 +71,9 @@ const readContent = async (filePath) => {
   try {
     const content = await readFile(filePath, `utf-8`);
 
-    return content.split(`\n`).filter((item) => item !== ``);
-  } catch (err) {
-    console.error(chalk.red(err));
+    return content.trim().split(`\n`);
+  } catch (error) {
+    logger.error(`Error when reading file: ${error.message}`);
 
     return [];
   }
