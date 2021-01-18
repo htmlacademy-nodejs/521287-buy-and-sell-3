@@ -1,44 +1,57 @@
 'use strict';
 
-const {generateId} = require(`../../utils`);
+const Aliase = require(`../models/aliase`);
 
 class OfferService {
-  constructor(offers) {
-    this._offers = offers;
+  constructor(sequelize) {
+    this._Offer = sequelize.models.Offer;
+    this._Comment = sequelize.models.Comment;
+    this._Category = sequelize.models.Category;
   }
 
-  create(offer) {
-    const newOffer = Object.assign({id: generateId(), comments: []}, offer);
+  async create(offerData) {
+    const offer = await this._Offer.create(offerData);
+    await offer.addCategories(offerData.categories);
 
-    this._offers.push(newOffer);
-
-    return newOffer;
+    return offer.get();
   }
 
-  drop(id) {
-    const offer = this._offers.find((item) => item.id === id);
+  async drop(id) {
+    const deletedRows = await this._Offer.destroy({
+      where: {id},
+    });
+    const wasDropped = !!deletedRows;
 
-    if (!offer) {
-      return null;
+    return wasDropped;
+  }
+
+  async findAll(needComments) {
+    const include = [Aliase.CATEGORIES];
+    if (needComments) {
+      include.push(Aliase.COMMENTS);
     }
 
-    this._offers = this._offers.filter((item) => item.id !== id);
+    const offers = await this._Offer.findAll({include});
+    const result = offers.map((item) => item.get());
 
-    return offer;
-  }
-
-  findAll() {
-    return this._offers;
+    return result;
   }
 
   findOne(id) {
-    return this._offers.find((item) => item.id === id);
+    const result = this._Offer.findByPk(id, {
+      include: [Aliase.CATEGORIES],
+    });
+
+    return result;
   }
 
-  update(id, offer) {
-    const oldOffer = this._offers.find((item) => item.id === id);
+  async update(id, offer) {
+    const [updatedRows] = await this._Offer.update(offer, {
+      where: {id}
+    });
+    const wasUpdated = !!updatedRows;
 
-    return Object.assign(oldOffer, offer);
+    return wasUpdated;
   }
 }
 
