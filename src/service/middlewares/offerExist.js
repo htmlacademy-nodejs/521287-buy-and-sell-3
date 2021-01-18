@@ -2,14 +2,14 @@
 
 const {HttpCode} = require(`../../constants`);
 
-module.exports = (service) => (req, res, next) => {
+module.exports = (service) => async (req, res, next) => {
   const {offerId} = req.params;
-  const offer = service.findOne(offerId);
+  const offer = await service.findOne(offerId);
 
   if (!offer) {
     return res
       .status(HttpCode.NOT_FOUND)
-      .send(`Offer with ${offerId} isn't found`);
+      .send(`Offer with ${offerId} wasn't found`);
   }
 
   res.locals.offer = offer;
