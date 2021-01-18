@@ -25,7 +25,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-offersRouter.get(`/add`, (req, res) => res.render(`${ROOT}/add`));
+offersRouter.get(`/add`, async (req, res) => {
+  const categories = await api.getCategories();
+
+  res.render(`${ROOT}/add`, {categories});
+});
+
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
   const {file: {
     filename: picture,
