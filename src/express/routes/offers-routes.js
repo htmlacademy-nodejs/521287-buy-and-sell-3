@@ -69,7 +69,15 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
   res.render(`${ROOT}/edit`, {offer, categories});
 });
 
-offersRouter.get(`/category/:id`, (req, res) => res.render(`${ROOT}/category`));
-offersRouter.get(`/:id`, (req, res) => res.render(`${ROOT}/offer`));
+offersRouter.get(`/:id`, async (req, res) => {
+  const {id} = req.params;
+
+  const _offer = await api.getOffer(id, true);
+
+  res.render(`${ROOT}/offer`, {_offer});
+});
+
+offersRouter.get(`/category/:id`, (req, res) =>
+  res.render(`${ROOT}/category`));
 
 module.exports = offersRouter;
