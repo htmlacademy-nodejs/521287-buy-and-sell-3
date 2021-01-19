@@ -9,9 +9,12 @@ const ROOT = `main`;
 const mainRouter = new Router();
 
 mainRouter.get(`/`, async (req, res) => {
-  const _offers = await api.getOffers();
+  const [_offers, categories] = await Promise.all([
+    api.getOffers(),
+    api.getCategories(true),
+  ]);
 
-  res.render(`${ROOT}/main`, {_offers});
+  res.render(`${ROOT}/main`, {_offers, categories});
 });
 
 mainRouter.get(`/search`, async (req, res) => {
