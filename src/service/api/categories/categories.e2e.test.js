@@ -2,15 +2,23 @@
 
 const express = require(`express`);
 const request = require(`supertest`);
+const Sequelize = require(`sequelize`);
 
 const {HttpCode} = require(`../../../constants`);
-const {mockData} = require(`./mockData`);
-const categories = require(`./categories`);
+const initDB = require(`../../lib/init-db`);
 const DataService = require(`../../data-service/categories`);
+const {mockCategories, mockOffers} = require(`./mockData`);
+const categories = require(`./categories`);
+
+const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
 
 const app = express();
 app.use(express.json());
-categories(app, new DataService(mockData));
+
+beforeAll(async () => {
+  await initDB(mockDB, {categories: mockCategories, offers: mockOffers});
+  categories(app, new DataService(mockDB));
+});
 
 describe(`GET /categories`, () => {
   let response;
@@ -28,8 +36,12 @@ describe(`GET /categories`, () => {
   });
 
   it(`returns right data`, () => {
-    expect(response.body).toEqual(
-        expect.arrayContaining([`Книги`, `Животные`, `Игры`])
+    expect(response.body.map((item) => item.name)).toEqual(
+        expect.arrayContaining([
+          `Животные`,
+          `Журналы`,
+          `Игры`
+        ])
     );
   });
 });
