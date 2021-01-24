@@ -1,6 +1,14 @@
 'use strict';
 
+/**
+ * @todo (ilyasidorchik)
+ * Разбить остальные функции по файлам,
+ * так как их становится много
+ */
+
 const {nanoid} = require(`nanoid`);
+
+const {readContent} = require(`./utils/readContent.js`);
 
 const MAX_ID_LENGTH = 6;
 
@@ -46,4 +54,5 @@ module.exports = {
   shuffle,
   getPictureFileName,
   generateComments,
+  readContent,
 };
