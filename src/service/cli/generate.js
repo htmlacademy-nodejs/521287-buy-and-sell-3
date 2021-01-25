@@ -1,6 +1,6 @@
 'use strict';
 
-const {readFile, writeFile} = require(`fs`).promises;
+const {writeFile} = require(`fs`).promises;
 const chalk = require(`chalk`);
 
 const {
@@ -9,6 +9,7 @@ const {
   shuffle,
   getPictureFileName,
   generateComments,
+  readContent,
 } = require(`../../utils`);
 
 const DEFAULT_COUNT = 1;
@@ -67,18 +68,6 @@ const generateOffers = (count, titles, categoryList, sentences, commentList) =>
         comments,
       };
     });
-
-const readContent = async (filePath) => {
-  try {
-    const content = await readFile(filePath, `utf-8`);
-
-    return content.split(`\n`).filter((item) => item !== ``);
-  } catch (err) {
-    console.error(chalk.red(err));
-
-    return [];
-  }
-};
 
 module.exports = {
   name: `--generate`,
