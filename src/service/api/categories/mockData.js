@@ -6,11 +6,13 @@ const mockCategories = [
   `Игры`
 ];
 
+const offer1Categories = mockCategories.slice(0, 2);
+const offer2Categories = mockCategories.slice(1, 2);
+const offer3Categories = mockCategories.slice(-1);
+
 const mockOffers = [
   {
-    "categories": [
-      `Книги`
-    ],
+    "categories": offer1Categories,
     "description": `Если найдёте дешевле — сброшу цену. Три по цене двух только до конца дня. Это настоящая находка для коллекционера! Продаю с болью в сердце...`,
     "picture": `item06.jpg`,
     "title": `Продам отличную подборку фильмов на VHS`,
@@ -23,9 +25,7 @@ const mockOffers = [
     ]
   },
   {
-    "categories": [
-      `Животные`
-    ],
+    "categories": offer2Categories,
     "description": `Товар в отличном состоянии. Это настоящая находка для коллекционера! Если найдёте дешевле — сброшу цену. Три по цене двух только до конца дня.`,
     "picture": `item10.jpg`,
     "title": `Продам шкаф для одежды`,
@@ -47,9 +47,7 @@ const mockOffers = [
     ]
   },
   {
-    "categories": [
-      `Игры`
-    ],
+    "categories": offer3Categories,
     "description": `Таких предложений больше нет! Три по цене двух только до конца дня. Продаю с болью в сердце... Если найдёте дешевле — сброшу цену.`,
     "picture": `item03.jpg`,
     "title": `Продам новую приставку Sony Playstation 5`,
