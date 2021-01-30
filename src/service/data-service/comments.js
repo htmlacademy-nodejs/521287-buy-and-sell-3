@@ -3,7 +3,7 @@
 class CommentService {
   constructor(sequelize) {
     this._Offer = sequelize.models.Offer;
-    this._Comment = sequelize.models.comment;
+    this._Comment = sequelize.models.Comment;
   }
 
   create(offerId, comment) {

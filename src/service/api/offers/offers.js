@@ -62,10 +62,10 @@ module.exports = (app, service, commentService) => {
     return res.status(HttpCode.OK).json(deletedOffer);
   });
 
-  route.get(`/:offerId/comments`, offerExist(service), (req, res) => {
+  route.get(`/:offerId/comments`, offerExist(service), async (req, res) => {
     const {offerId} = req.params;
 
-    const comments = commentService.findAll(offerId);
+    const comments = await commentService.findAll(offerId);
 
     return res.status(HttpCode.OK).json(comments);
   });
@@ -92,9 +92,9 @@ module.exports = (app, service, commentService) => {
       `/:offerId/comments`,
       [offerExist(service), commentValidator],
       async (req, res) => {
-        const {offer} = res.locals;
+        const {offerId} = req.params;
 
-        const comment = await commentService.create(offer, req.body);
+        const comment = await commentService.create(offerId, req.body);
 
         return res.status(HttpCode.CREATED).json(comment);
       }
