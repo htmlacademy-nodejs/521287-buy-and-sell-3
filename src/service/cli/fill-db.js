@@ -1,13 +1,12 @@
 'use strict';
 
-const {readFile} = require(`fs`).promises;
-
 const {
   getRandomInt,
   shuffle,
   getRandomSubarray,
   getPictureFileName,
   generateComments,
+  readContent,
 } = require(`../../utils`);
 const {getLogger} = require(`../lib/logger`);
 const sequelize = require(`../lib/sequelize`);
@@ -66,18 +65,6 @@ const generateOffers = (count, titles, categoryList, sentences, commentList) =>
         comments,
       };
     });
-
-const readContent = async (filePath) => {
-  try {
-    const content = await readFile(filePath, `utf-8`);
-
-    return content.trim().split(`\n`);
-  } catch (error) {
-    logger.error(`Error when reading file: ${error.message}`);
-
-    return [];
-  }
-};
 
 module.exports = {
   name: `--fill-db`,
