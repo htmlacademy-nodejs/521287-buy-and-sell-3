@@ -6,10 +6,10 @@ const {HttpCode} = require(`../../../constants`);
 const {createAPI} = require(`./utils`);
 const {
   mockOffers,
-  offer1Title,
-  offer1Comments,
-  offer2Title,
-  offer2Comments,
+  mockOfferFirstTitle,
+  mockOfferFirstComments,
+  mockOfferSecondTitle,
+  mockOfferSecondComments,
 } = require(`./mockData`);
 
 describe(`GET /offers`, () => {
@@ -32,7 +32,7 @@ describe(`GET /offers`, () => {
   });
 
   it(`returns right data`, () => {
-    expect(response.body[0].title).toBe(offer1Title);
+    expect(response.body[0].title).toBe(mockOfferFirstTitle);
   });
 });
 
@@ -49,7 +49,7 @@ describe(`GET /offers/{offerId}`, () => {
   });
 
   it(`returns right data`, () => {
-    expect(response.body.title).toBe(offer2Title);
+    expect(response.body.title).toBe(mockOfferSecondTitle);
   });
 });
 
@@ -238,7 +238,7 @@ describe(`GET /offers/{offerId}/comments`, () => {
 
   it(`returns offer comment list`, () => {
     const {length} = response.body;
-    const expected = offer2Comments.length;
+    const expected = mockOfferSecondComments.length;
 
     expect(length).toBe(expected);
   });
@@ -246,7 +246,7 @@ describe(`GET /offers/{offerId}/comments`, () => {
   it(`returns right data`, () => {
     const COMMENT_ID = 0;
     const {text} = response.body[COMMENT_ID];
-    const expected = offer2Comments[COMMENT_ID].text;
+    const expected = mockOfferSecondComments[COMMENT_ID].text;
 
     expect(text).toBe(expected);
   });
@@ -285,7 +285,7 @@ describe(`POST /offers/{offerId}/comments`, () => {
       );
 
       const length = offerResponse.body.length;
-      const expected = offer2Comments.length + 1;
+      const expected = mockOfferSecondComments.length + 1;
 
       expect(length).toBe(expected);
     });
@@ -348,7 +348,7 @@ describe(`DELETE /offers/{offerId}/comments/{commentId}`, () => {
       );
 
       const length = commentResponse.body.length;
-      const expected = offer1Comments.length - 1;
+      const expected = mockOfferFirstComments.length - 1;
 
       expect(length).toBe(expected);
     });

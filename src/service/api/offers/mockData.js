@@ -8,8 +8,8 @@ const mockCategories = [
   `Книги`
 ];
 
-const offer1Title = `Куплю антиквариат`;
-const offer1Comments = [
+const mockOfferFirstTitle = `Куплю антиквариат`;
+const mockOfferFirstComments = [
   {
     "text": `Неплохо, но дорого. Оплата наличными или перевод на карту? Продаю в связи с переездом. Отрываю от сердца.`
   },
@@ -23,8 +23,8 @@ const offer1Comments = [
     "text": `Продаю в связи с переездом. Отрываю от сердца. С чем связана продажа? Почему так дешёво? Оплата наличными или перевод на карту?`
   }
 ];
-const offer2Title = `Продам слона`;
-const offer2Comments = [
+const mockOfferSecondTitle = `Продам слона`;
+const mockOfferSecondComments = [
   {
     "text": `Почему в таком ужасном состоянии?`
   },
@@ -42,10 +42,10 @@ const mockOffers = [
       `Животные`,
       `Марки`,
     ],
-    "comments": offer1Comments,
+    "comments": mockOfferFirstComments,
     "description": `Продаю с болью в сердце... Даю недельную гарантию. Если найдёте дешевле — сброшу цену. Если товар не понравится — верну всё до последней копейки.`,
     "picture": `item02.jpg`,
-    "title": offer1Title,
+    "title": mockOfferFirstTitle,
     "type": `OFFER`,
     "sum": 10405
   },
@@ -53,10 +53,10 @@ const mockOffers = [
     "categories": [
       `Посуда`
     ],
-    "comments": offer2Comments,
+    "comments": mockOfferSecondComments,
     "description": `Если товар не понравится — верну всё до последней копейки. Если найдёте дешевле — сброшу цену. При покупке с меня бесплатная доставка в черте города. Бонусом отдам все аксессуары.`,
     "picture": `item12.jpg`,
-    "title": offer2Title,
+    "title": mockOfferSecondTitle,
     "type": `SALE`,
     "sum": 96693
   },
@@ -121,8 +121,8 @@ const mockOffers = [
 module.exports = {
   mockCategories,
   mockOffers,
-  offer1Title,
-  offer1Comments,
-  offer2Title,
-  offer2Comments,
+  mockOfferFirstTitle,
+  mockOfferFirstComments,
+  mockOfferSecondTitle,
+  mockOfferSecondComments,
 };
