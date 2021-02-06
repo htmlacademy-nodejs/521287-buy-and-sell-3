@@ -37,6 +37,10 @@ class API {
     return this._load(`/categories`, {params: {count}});
   }
 
+  getCategory(id) {
+    return this._load(`/categories/${id}`);
+  }
+
   createOffer(data) {
     return this._load(`/offers`, {
       method: `POST`,

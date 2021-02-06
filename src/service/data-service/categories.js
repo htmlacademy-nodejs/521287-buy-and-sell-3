@@ -10,6 +10,14 @@ class CategoryService {
     this._OfferCategory = sequelize.models.OfferCategory;
   }
 
+  async findOne(id) {
+    const result = await this._Category.findByPk(id, {
+      include: [Aliase.OFFERS],
+    });
+
+    return result;
+  }
+
   async findAll(needCount) {
     if (needCount) {
       const categories = await this._Category.findAll({
