@@ -1,7 +1,7 @@
 # Учебный проект «Куплю. Продам» [![Build status][travis-image]][travis-url]
 
-* Студент: [Илья Сидорчик](https://up.htmlacademy.ru/nodejs/3/user/521287).
-* Наставник: `Неизвестно`.
+* Студент: [Илья Сидорчик](https://up.htmlacademy.ru/nodejs/3/user/521287), [@ilyasidorchik](https://github.com/ilyasidorchik)
+* Наставник: [Юрий Кучма](https://htmlacademy.ru/profile/krabaton), [@Krabaton](https://github.com/Krabaton)
 
 ---
 

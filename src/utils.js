@@ -33,25 +33,34 @@ const shuffle = (someArray) => {
   return someArray;
 };
 
+const getRandomSubarray = (items) => {
+  const newItems = items.slice();
+  const result = [];
+  let count = getRandomInt(1, newItems.length - 1);
+
+  while (count--) {
+    result.push(...newItems.splice(getRandomInt(0, newItems.length - 1), 1));
+  }
+
+  return result;
+};
+
 const getPictureFileName = (number) => `item${(`0` + number).slice(-2)}.jpg`;
 
 const generateComments = (count, comments) =>
   Array(count)
     .fill({})
-    .map(() => {
-      const id = generateId();
-      const text = shuffle(comments).slice(0, getRandomInt(1, 3)).join(` `);
-
-      return {
-        id,
-        text,
-      };
-    });
+    .map(() => ({
+      text: shuffle(comments)
+        .slice(0, getRandomInt(1, 3))
+        .join(` `),
+    }));
 
 module.exports = {
   generateId,
   getRandomInt,
   shuffle,
+  getRandomSubarray,
   getPictureFileName,
   generateComments,
   readContent,

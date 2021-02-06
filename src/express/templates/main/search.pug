@@ -9,24 +9,24 @@ block content
           | Найдено 
           span.js-results #{result.length}
         ul.search-results__list
-          each _offer in result
+          each pugOffer in result
             li.search-results__item
               .ticket-card.ticket-card--color05
                 .ticket-card__img
-                  img(src=`img/${_offer.picture}` alt=_offer.title)
+                  img(src=`img/${pugOffer.picture}` alt=pugOffer.title)
                 .ticket-card__info
-                  +ticketLabel(_offer.type)
+                  +ticketLabel(pugOffer.type)
                   .ticket-card__categories
-                    each category of _offer.categories
-                      a(href='#') #{category}
+                    each category of pugOffer.categories
+                      a(href='#') #{category.name}
                   .ticket-card__header
                     h3.ticket-card__title
-                      a(href='#') #{_offer.title}
+                      a(href='#') #{pugOffer.title}
                     p.ticket-card__price
-                      span.js-sum #{_offer.sum}
+                      span.js-sum #{pugOffer.sum}
                       |  ₽
                   .ticket-card__desc
-                    p #{_offer.description}
+                    p #{pugOffer.description}
     section.tickets-list
       h2.visually-hidden Самые новые предложения
       .tickets-list__wrapper

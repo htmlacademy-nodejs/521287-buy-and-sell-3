@@ -1,79 +1,74 @@
 'use strict';
 
-const mockData = [
+const mockCategories = [`Животные`, `Журналы`, `Игры`];
+
+const mockOfferFirstCategories = mockCategories.slice(0, 2);
+const mockOfferSecondCategories = mockCategories.slice(1, 2);
+const mockOfferThirdCategories = mockCategories.slice(-1);
+
+const mockOffers = [
   {
-    "id": `1wy7c9`,
-    "category": [
-      `Книги`
-    ],
-    "description": `Если найдёте дешевле — сброшу цену. Три по цене двух только до конца дня. Это настоящая находка для коллекционера! Продаю с болью в сердце...`,
-    "picture": `item06.jpg`,
-    "title": `Продам отличную подборку фильмов на VHS`,
-    "type": `sale`,
-    "sum": 39776,
-    "comments": [
+    categories: mockOfferFirstCategories,
+    description: `Если найдёте дешевле — сброшу цену. Три по цене двух только до конца дня. Это настоящая находка для коллекционера! Продаю с болью в сердце...`,
+    picture: `item06.jpg`,
+    title: `Продам отличную подборку фильмов на VHS`,
+    type: `SALE`,
+    sum: 39776,
+    comments: [
       {
-        "id": `TlIpUf`,
-        "text": `Вы что?! В магазине дешевле. Оплата наличными или перевод на карту? Неплохо, но дорого.`
-      }
-    ]
+        text: `Вы что?! В магазине дешевле. Оплата наличными или перевод на карту? Неплохо, но дорого.`,
+      },
+    ],
   },
   {
-    "id": `R7ii_A`,
-    "category": [
-      `Животные`
+    categories: mockOfferSecondCategories,
+    description: `Товар в отличном состоянии. Это настоящая находка для коллекционера! Если найдёте дешевле — сброшу цену. Три по цене двух только до конца дня.`,
+    picture: `item10.jpg`,
+    title: `Продам шкаф для одежды`,
+    type: `SALE`,
+    sum: 62533,
+    comments: [
+      {
+        text: `Совсем немного...`,
+      },
+      {
+        text: `А где блок питания?`,
+      },
+      {
+        text: `А сколько игр в комплекте? Продаю в связи с переездом. Отрываю от сердца. Неплохо, но дорого.`,
+      },
+      {
+        text: `Почему в таком ужасном состоянии? А где блок питания?`,
+      },
     ],
-    "description": `Товар в отличном состоянии. Это настоящая находка для коллекционера! Если найдёте дешевле — сброшу цену. Три по цене двух только до конца дня.`,
-    "picture": `item10.jpg`,
-    "title": `Продам шкаф для одежды`,
-    "type": `sale`,
-    "sum": 62533,
-    "comments": [
-      {
-        "id": `hPs-q7`,
-        "text": `Совсем немного...`
-      },
-      {
-        "id": `gBoAr6`,
-        "text": `А где блок питания?`
-      },
-      {
-        "id": `t9KeSL`,
-        "text": `А сколько игр в комплекте? Продаю в связи с переездом. Отрываю от сердца. Неплохо, но дорого.`
-      },
-      {
-        "id": `9ibGwa`,
-        "text": `Почему в таком ужасном состоянии? А где блок питания?`
-      }
-    ]
   },
   {
-    "id": `Ku6Rqz`,
-    "category": [
-      `Игры`
+    categories: mockOfferThirdCategories,
+    description: `Таких предложений больше нет! Три по цене двух только до конца дня. Продаю с болью в сердце... Если найдёте дешевле — сброшу цену.`,
+    picture: `item03.jpg`,
+    title: `Продам новую приставку Sony Playstation 5`,
+    type: `OFFER`,
+    sum: 40323,
+    comments: [
+      {
+        text: `А сколько игр в комплекте? Неплохо, но дорого. Вы что?! В магазине дешевле.`,
+      },
+      {
+        text: `Вы что?! В магазине дешевле.`,
+      },
+      {
+        text: `А где блок питания?`,
+      },
     ],
-    "description": `Таких предложений больше нет! Три по цене двух только до конца дня. Продаю с болью в сердце... Если найдёте дешевле — сброшу цену.`,
-    "picture": `item03.jpg`,
-    "title": `Продам новую приставку Sony Playstation 5`,
-    "type": `offer`,
-    "sum": 40323,
-    "comments": [
-      {
-        "id": `swnuNm`,
-        "text": `А сколько игр в комплекте? Неплохо, но дорого. Вы что?! В магазине дешевле.`
-      },
-      {
-        "id": `duhAgP`,
-        "text": `Вы что?! В магазине дешевле.`
-      },
-      {
-        "id": `NNfQJg`,
-        "text": `А где блок питания?`
-      }
-    ]
-  }
+  },
 ];
 
+const mockOffersWithSecondCategory = mockOffers.filter((item) =>
+  item.categories.includes(mockCategories[1])
+);
+
 module.exports = {
-  mockData
+  mockCategories,
+  mockOffers,
+  mockOffersWithSecondCategory,
 };

@@ -2,18 +2,26 @@
 
 const express = require(`express`);
 const request = require(`supertest`);
+const Sequelize = require(`sequelize`);
 
 const {HttpCode} = require(`../../../constants`);
-const {mockData} = require(`./mockData`);
-const search = require(`./search`);
+const initDB = require(`../../lib/init-db`);
 const DataService = require(`../../data-service/search`);
+const {mockCategories, mockOffers, foundOfferTitle} = require(`./mockData`);
+const search = require(`./search`);
 
 const app = express();
 app.use(express.json());
-search(app, new DataService(mockData));
+
+const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
+
+beforeAll(async () => {
+  await initDB(mockDB, {categories: mockCategories, offers: mockOffers});
+  search(app, new DataService(mockDB));
+});
 
 describe(`GET /search`, () => {
-  describe(`positive scenarios`, () => {
+  describe(`+`, () => {
     let response;
 
     beforeAll(async () => {
@@ -31,17 +39,15 @@ describe(`GET /search`, () => {
     });
 
     it(`returns right data`, () => {
-      expect(response.body[0].id).toBe(`9DBYPA`);
+      expect(response.body[0].title).toBe(foundOfferTitle);
     });
   });
 
-  describe(`negative scenarios`, () => {
+  describe(`−`, () => {
     it(`responds with 400 status code when query is empty`, async () => {
-      const response = await request(app).get(`/search`).query({
-        query: `Продам свою душу`
-      });
+      const response = await request(app).get(`/search`);
 
-      expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
+      expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
     });
 
     it(`responds with 404 status code when nothing is found`, async () => {

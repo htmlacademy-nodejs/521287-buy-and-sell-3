@@ -1,19 +1,18 @@
 'use strict';
 
-const {writeFile} = require(`fs`).promises;
-const chalk = require(`chalk`);
-
 const {
-  generateId,
   getRandomInt,
   shuffle,
+  getRandomSubarray,
   getPictureFileName,
   generateComments,
   readContent,
 } = require(`../../utils`);
+const {getLogger} = require(`../lib/logger`);
+const sequelize = require(`../lib/sequelize`);
+const initDatabase = require(`../lib/init-db`);
 
 const DEFAULT_COUNT = 1;
-const FILE_NAME = `mocks.json`;
 const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
@@ -35,20 +34,19 @@ const PictureRestrict = {
   MAX: 16,
 };
 
+const logger = getLogger({name: `fill-db`});
+
 const generateOffers = (count, titles, categoryList, sentences, commentList) =>
   Array(count)
     .fill({})
     .map(() => {
-      const id = generateId();
-      const categories = [
-        categoryList[getRandomInt(0, categoryList.length - 1)],
-      ];
+      const categories = getRandomSubarray(categoryList);
       const description = shuffle(sentences).slice(1, 5).join(` `);
       const picture = getPictureFileName(
           getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)
       );
       const title = titles[getRandomInt(0, titles.length - 1)];
-      const type = Object.values(OfferType)[
+      const type = Object.keys(OfferType)[
         getRandomInt(0, Object.values(OfferType).length - 1)
       ];
       const sum = getRandomInt(SumRestrict.MIN, SumRestrict.MAX);
@@ -58,7 +56,6 @@ const generateOffers = (count, titles, categoryList, sentences, commentList) =>
       );
 
       return {
-        id,
         categories,
         description,
         picture,
@@ -70,8 +67,17 @@ const generateOffers = (count, titles, categoryList, sentences, commentList) =>
     });
 
 module.exports = {
-  name: `--generate`,
+  name: `--fill-db`,
   async run(args) {
+    try {
+      logger.info(`Trying to connect to database...`);
+      await sequelize.authenticate();
+    } catch (error) {
+      logger.error(`An error occured: ${error.message}`);
+      process.exit(1);
+    }
+    logger.info(`Connection to database was established`);
+
     const [sentences, titles, categories, comments] = await Promise.all([
       await readContent(FILE_SENTENCES_PATH),
       await readContent(FILE_TITLES_PATH),
@@ -81,18 +87,14 @@ module.exports = {
 
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
-    const content = JSON.stringify(
-        generateOffers(countOffer, titles, categories, sentences, comments),
-        null,
-        2
+    const offers = generateOffers(
+        countOffer,
+        titles,
+        categories,
+        sentences,
+        comments
     );
 
-    try {
-      await writeFile(FILE_NAME, content);
-
-      console.log(chalk.green(`Operation success. File created.`));
-    } catch (err) {
-      console.error(chalk.red(`Can't write data to file...`));
-    }
+    return initDatabase(sequelize, {offers, categories});
   },
 };

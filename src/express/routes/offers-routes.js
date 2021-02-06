@@ -25,7 +25,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-offersRouter.get(`/add`, (req, res) => res.render(`${ROOT}/add`));
+offersRouter.get(`/add`, async (req, res) => {
+  const categories = await api.getCategories();
+
+  res.render(`${ROOT}/add`, {categories});
+});
+
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
   const {file: {
     filename: picture,
@@ -64,7 +69,23 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
   res.render(`${ROOT}/edit`, {offer, categories});
 });
 
-offersRouter.get(`/category/:id`, (req, res) => res.render(`${ROOT}/category`));
-offersRouter.get(`/:id`, (req, res) => res.render(`${ROOT}/offer`));
+offersRouter.get(`/:id`, async (req, res) => {
+  const {id} = req.params;
+
+  const offer = await api.getOffer(id, true);
+
+  res.render(`${ROOT}/offer`, {pugOffer: offer});
+});
+
+offersRouter.get(`/category/:id`, async (req, res) => {
+  const {id} = req.params;
+
+  const [category, categories] = await Promise.all([
+    api.getCategory(id),
+    api.getCategories(),
+  ]);
+
+  res.render(`${ROOT}/category`, {categories, category});
+});
 
 module.exports = offersRouter;
