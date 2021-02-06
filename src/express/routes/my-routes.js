@@ -15,9 +15,14 @@ myRouter.get(`/`, async (req, res) => {
 });
 
 myRouter.get(`/comments`, async (req, res) => {
+  /**
+   * Здесь должно быть получение объявлений пользователя,
+   * но пока нет такого функционала
+   */
   const offers = await api.getOffers({comments: true});
+  const pugOffers = offers.slice(0, 3);
 
-  res.render(`${ROOT}/comments`, {pugOffers: offers.slice(0, 3)});
+  res.render(`${ROOT}/comments`, {pugOffers});
 });
 
 module.exports = myRouter;
