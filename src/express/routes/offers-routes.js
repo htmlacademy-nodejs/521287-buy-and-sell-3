@@ -80,9 +80,12 @@ offersRouter.get(`/:id`, async (req, res) => {
 offersRouter.get(`/category/:id`, async (req, res) => {
   const {id} = req.params;
 
-  const category = await api.getCategory(Number(id));
+  const [category, categories] = await Promise.all([
+    api.getCategory(id),
+    api.getCategories(),
+  ]);
 
-  res.render(`${ROOT}/category`, {category});
+  res.render(`${ROOT}/category`, {categories, category});
 });
 
 module.exports = offersRouter;
