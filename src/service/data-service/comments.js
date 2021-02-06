@@ -19,9 +19,8 @@ class CommentService {
     const deletedRows = await this._Comment.destroy({
       where: {id}
     });
-    const wasDropped = !!deletedRows;
 
-    return wasDropped;
+    return Boolean(deletedRows);
   }
 
   findAll(offerId) {
