@@ -72,9 +72,9 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
 offersRouter.get(`/:id`, async (req, res) => {
   const {id} = req.params;
 
-  const _offer = await api.getOffer(id, true);
+  const offer = await api.getOffer(id, true);
 
-  res.render(`${ROOT}/offer`, {_offer});
+  res.render(`${ROOT}/offer`, {pugOffer: offer});
 });
 
 offersRouter.get(`/category/:id`, async (req, res) => {
