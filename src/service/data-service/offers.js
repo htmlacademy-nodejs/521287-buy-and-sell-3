@@ -20,9 +20,8 @@ class OfferService {
     const deletedRows = await this._Offer.destroy({
       where: {id},
     });
-    const wasDropped = !!deletedRows;
 
-    return wasDropped;
+    return Boolean(deletedRows);
   }
 
   async findAll(needComments) {
@@ -37,21 +36,35 @@ class OfferService {
     return result;
   }
 
-  findOne(id) {
-    const result = this._Offer.findByPk(id, {
-      include: [Aliase.CATEGORIES],
-    });
+  async findOne(id, needComments) {
+    const include = [Aliase.CATEGORIES];
+
+    if (needComments) {
+      include.push(Aliase.COMMENTS);
+    }
+
+    const result = await this._Offer.findByPk(id, {include});
 
     return result;
+  }
+
+  async findPage({limit, offset}) {
+    const {count, rows} = await this._Offer.findAndCountAll({
+      limit,
+      offset,
+      include: [Aliase.CATEGORIES],
+      distinct: true,
+    });
+
+    return {count, offers: rows};
   }
 
   async update(id, offer) {
     const [updatedRows] = await this._Offer.update(offer, {
       where: {id}
     });
-    const wasUpdated = !!updatedRows;
 
-    return wasUpdated;
+    return Boolean(updatedRows);
   }
 }
 

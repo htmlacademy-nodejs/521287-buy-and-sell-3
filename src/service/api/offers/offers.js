@@ -15,11 +15,16 @@ module.exports = (app, service, commentService) => {
   app.use(`/offers`, route);
 
   route.get(`/`, async (req, res) => {
-    const {comments} = req.query;
+    const {offset, limit, comments} = req.query;
+    let result;
 
-    const offers = await service.findAll(comments);
+    if (limit || offset) {
+      result = await service.findPage({limit, offset});
+    } else {
+      result = await service.findAll(comments);
+    }
 
-    return res.status(HttpCode.OK).json(offers);
+    return res.status(HttpCode.OK).json(result);
   });
 
   route.get(`/:offerId`, offerExist(service), (req, res) => {
