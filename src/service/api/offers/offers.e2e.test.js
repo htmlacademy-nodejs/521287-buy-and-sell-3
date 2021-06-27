@@ -2,9 +2,10 @@
 
 const request = require(`supertest`);
 
-const {HttpCode} = require(`../../../constants`);
+const {HttpCode, OfferType} = require(`../../../constants`);
 const {createAPI} = require(`./utils`);
 const {
+  VALID_DESCRIPTION,
   mockOffers,
   mockOfferFirstTitle,
   mockOfferFirstComments,
@@ -59,9 +60,9 @@ describe(`POST /offers`, () => {
     const newOffer = {
       title: newOfferTitle,
       categories: [1, 2],
-      description: `Продаю с болью в сердце...`,
+      description: VALID_DESCRIPTION,
       picture: `item14.jpg`,
-      type: `OFFER`,
+      type: OfferType.OFFER,
       sum: 76809,
     };
     let app;
@@ -94,9 +95,9 @@ describe(`POST /offers`, () => {
     const newOffer = {
       title: `Куплю пазлы с рисунком единорога`,
       category: [`Разное`],
-      description: `Продаю с болью в сердце...`,
+      description: VALID_DESCRIPTION,
       picture: `item14.jpg`,
-      type: `offer`,
+      type: OfferType.OFFER,
       sum: 76809,
     };
     let app;
@@ -115,6 +116,35 @@ describe(`POST /offers`, () => {
         expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
       }
     });
+
+    it(`responds with 400 status code when field type is wrong`, async () => {
+      const badOffers = [
+        {...newOffer, sum: true},
+        {...newOffer, picture: 12345},
+        {...newOffer, categories: `Котики`}
+      ];
+
+      for (const badOffer of badOffers) {
+        const response = await request(app).post(`/offers`).send(badOffer);
+
+        expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+      }
+    });
+
+    test(`responds with 400 status code when some field value is wrong`, async () => {
+      const badOffers = [
+        {...newOffer, sum: -1},
+        {...newOffer, title: `too short`},
+        {...newOffer, description: `too short desc`},
+        {...newOffer, categories: []}
+      ];
+
+      for (const badOffer of badOffers) {
+        const response = await request(app).post(`/offers`).send(badOffer);
+
+        expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+      }
+    });
   });
 });
 
@@ -125,9 +155,9 @@ describe(`PUT /offers/{offerId}`, () => {
     const changedOffer = {
       title: changedOfferTitle,
       categories: [3],
-      description: `Дам погладить котика. Дорого. Не гербалайф`,
+      description: VALID_DESCRIPTION,
       picture: `cat.jpg`,
-      type: `offer`,
+      type: OfferType.OFFER,
       sum: 100500,
     };
     let app;
@@ -152,16 +182,18 @@ describe(`PUT /offers/{offerId}`, () => {
   });
 
   describe(`−`, () => {
+    const validOffer = {
+      title: `Это длинный заголовок`,
+      categories: [1],
+      description: VALID_DESCRIPTION,
+      picture: `объявления`,
+      type: OfferType.SALE,
+      sum: 404,
+    };
+
     it(`responds with 404 status code when offer doesn't exist`, async () => {
       const app = await createAPI();
-      const validOffer = {
-        title: `Это`,
-        categories: [1],
-        description: `валидный объект`,
-        picture: `объявления`,
-        type: `однако`,
-        sum: 404,
-      };
+
       const response = await request(app)
         .put(`/offers/NOEXIST`)
         .send(validOffer);
@@ -171,13 +203,8 @@ describe(`PUT /offers/{offerId}`, () => {
 
     it(`responds with 400 status code when some required property is absent`, async () => {
       const app = await createAPI();
-      const invalidOffer = {
-        title: `Это`,
-        categories: [1],
-        description: `валидный объект`,
-        picture: `объявления`,
-        type: `нет поля sum`,
-      };
+      const invalidOffer = {...validOffer};
+      delete invalidOffer.title;
       const response = await request(app)
         .put(`/offers/M3HI0J`)
         .send(invalidOffer);

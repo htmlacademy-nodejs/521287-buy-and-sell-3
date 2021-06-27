@@ -5,6 +5,7 @@ const multer = require(`multer`);
 const path = require(`path`);
 const {nanoid} = require(`nanoid`);
 
+const {ensureArray} = require(`../../utils`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `offers`;
@@ -40,9 +41,10 @@ offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
     price: sum,
     action: type,
     comment: description,
-    category: categories,
+    category,
   } = body;
   const picture = file ? file.filename : null;
+  const categories = ensureArray(category);
 
   const offerData = {
     title,
@@ -67,21 +69,74 @@ offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
 
 offersRouter.get(`/edit/:id`, async (req, res) => {
   const {id} = req.params;
+  const {error} = req.query;
 
   const [offer, categories] = await Promise.all([
     api.getOffer(id),
     api.getCategories(),
   ]);
 
-  res.render(`${ROOT}/edit`, {offer, categories});
+  res.render(`${ROOT}/edit`, {id, offer, categories, error});
+});
+
+offersRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
+  const {body, file, params} = req;
+  const {id} = params;
+
+  const title = req.body[`ticket-name`];
+  const {
+    price: sum,
+    action: type,
+    comment: description,
+    category,
+  } = body;
+  const categories = ensureArray(category);
+  const picture = file ? file.filename : body[`old-image`];
+
+  const offerData = {
+    title,
+    description,
+    type,
+    picture,
+    sum,
+    categories,
+  };
+
+  try {
+    await api.editOffer(offerData);
+
+    return res.redirect(`../my`);
+  } catch (error) {
+    const errorMessage = encodeURIComponent(error.response && error.response.data);
+    const errorPath = `/offers/edit/${id}/?error=${errorMessage}`;
+
+    return res.redirect(errorPath);
+  }
 });
 
 offersRouter.get(`/:id`, async (req, res) => {
   const {id} = req.params;
+  const {error} = req.query;
 
   const offer = await api.getOffer(id, true);
 
-  res.render(`${ROOT}/offer`, {pugOffer: offer});
+  res.render(`${ROOT}/offer`, {id, pugOffer: offer, error});
+});
+
+offersRouter.post(`/:id/comments`, async (req, res) => {
+  const {id} = req.params;
+  const {comment} = req.body;
+
+  try {
+    await api.createComment(id, {text: comment});
+
+    return res.redirect(`../offers/${id}`);
+  } catch (error) {
+    const errorMessage = encodeURIComponent(error.response && error.response.data);
+    const errorPath = `/offers/${id}/?error=${errorMessage}`;
+
+    return res.redirect(errorPath);
+  }
 });
 
 offersRouter.get(`/category/:id`, async (req, res) => {

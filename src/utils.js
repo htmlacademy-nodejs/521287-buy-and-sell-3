@@ -10,6 +10,7 @@ const {nanoid} = require(`nanoid`);
 
 const {readContent} = require(`./utils/readContent`);
 const {buildValidationErrorMessage} = require(`./utils/buildValidationErrorMessage`);
+const {ensureArray} = require(`./utils/ensureArray`);
 
 const MAX_ID_LENGTH = 6;
 
@@ -67,4 +68,5 @@ module.exports = {
 
   readContent,
   buildValidationErrorMessage,
+  ensureArray,
 };

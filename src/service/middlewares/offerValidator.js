@@ -22,8 +22,6 @@ module.exports = (req, res, next) => {
 
   if (error) {
     const errorMessage = buildValidationErrorMessage(error);
-    console.error(`errorMessage in routes`);
-    console.error(errorMessage);
 
     return res.status(HttpCode.BAD_REQUEST).send(errorMessage);
   }

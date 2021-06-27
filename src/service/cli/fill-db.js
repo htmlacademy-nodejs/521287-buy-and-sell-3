@@ -1,5 +1,6 @@
 'use strict';
 
+const {OfferType} = require(`../../constants`);
 const {
   getRandomInt,
   shuffle,
@@ -18,11 +19,6 @@ const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
 const MAX_COMMENTS = 4;
-
-const OfferType = {
-  OFFER: `OFFER`,
-  SALE: `SALE`,
-};
 
 const SumRestrict = {
   MIN: 1000,
