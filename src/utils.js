@@ -8,7 +8,8 @@
 
 const {nanoid} = require(`nanoid`);
 
-const {readContent} = require(`./utils/readContent.js`);
+const {readContent} = require(`./utils/readContent`);
+const {buildValidationErrorMessage} = require(`./utils/buildValidationErrorMessage`);
 
 const MAX_ID_LENGTH = 6;
 
@@ -63,5 +64,7 @@ module.exports = {
   getRandomSubarray,
   getPictureFileName,
   generateComments,
+
   readContent,
+  buildValidationErrorMessage,
 };

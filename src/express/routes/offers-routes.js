@@ -26,35 +26,42 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 offersRouter.get(`/add`, async (req, res) => {
+  const {error} = req.query;
   const categories = await api.getCategories();
 
-  res.render(`${ROOT}/add`, {categories});
+  res.render(`${ROOT}/add`, {categories, error});
 });
 
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
-  const {file: {
-    filename: picture,
-  }, body: {
+  const {body, file} = req;
+
+  const title = req.body[`ticket-name`];
+  const {
     price: sum,
     action: type,
     comment: description,
     category: categories,
-  }} = req;
+  } = body;
+  const picture = file ? file.filename : null;
 
   const offerData = {
+    title,
+    description,
+    type,
     picture,
     sum,
-    type,
-    description,
-    title: req.body[`ticket-name`],
     categories,
   };
 
   try {
     await api.createOffer(offerData);
+
     return res.redirect(`../my`);
-  } catch (e) {
-    return res.redirect(`back`);
+  } catch (error) {
+    const errorMessage = encodeURIComponent(error.response && error.response.data);
+    const errorPath = `/offers/add?error=${errorMessage}`;
+
+    return res.redirect(errorPath);
   }
 });
 
