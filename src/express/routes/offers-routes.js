@@ -5,7 +5,7 @@ const multer = require(`multer`);
 const path = require(`path`);
 const {nanoid} = require(`nanoid`);
 
-const {ensureArray} = require(`../../utils`);
+const {buildOfferData} = require(`../../utils`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `offers`;
@@ -34,26 +34,7 @@ offersRouter.get(`/add`, async (req, res) => {
 });
 
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
-  const {body, file} = req;
-
-  const title = req.body[`ticket-name`];
-  const {
-    price: sum,
-    action: type,
-    comment: description,
-    category,
-  } = body;
-  const picture = file ? file.filename : null;
-  const categories = ensureArray(category);
-
-  const offerData = {
-    title,
-    description,
-    type,
-    picture,
-    sum,
-    categories,
-  };
+  const offerData = buildOfferData(req);
 
   try {
     await api.createOffer(offerData);
@@ -80,27 +61,8 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
 });
 
 offersRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
-  const {body, file, params} = req;
-  const {id} = params;
-
-  const title = req.body[`ticket-name`];
-  const {
-    price: sum,
-    action: type,
-    comment: description,
-    category,
-  } = body;
-  const categories = ensureArray(category);
-  const picture = file ? file.filename : body[`old-image`];
-
-  const offerData = {
-    title,
-    description,
-    type,
-    picture,
-    sum,
-    categories,
-  };
+  const {id} = req.params;
+  const offerData = buildOfferData(req, req.body[`old-image`]);
 
   try {
     await api.editOffer(offerData);
