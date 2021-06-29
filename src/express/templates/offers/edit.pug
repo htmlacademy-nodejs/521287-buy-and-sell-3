@@ -9,6 +9,7 @@ block content
             .ticket-form__avatar-container.js-preview-container.uploaded
               .ticket-form__avatar.js-preview
                 img(src=`/img/${offer.picture}` alt="Фото объекта")
+              input(type="hidden" name="old-image" value=offer.picture)
               .ticket-form__field-avatar
                 input#avatar.visually-hidden.js-file-field(type='file' name='avatar')
                 label(for='avatar')
@@ -17,8 +18,8 @@ block content
             .ticket-form__content
               .ticket-form__row
                 .form__field
-                  input#ticket-name.js-field(type='text' name='ticket-name' value=offer.title required)
-                  label(for='ticket-name') Название
+                  input#title.js-field(type='text' name='title' value=offer.title required)
+                  label(for='title') Название
                   span Обязательное поле
               .ticket-form__row
                 .form__field

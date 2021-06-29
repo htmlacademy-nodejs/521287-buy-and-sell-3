@@ -1,18 +1,18 @@
 'use strict';
 
-const {ensureArray} = require(`../../utils`);
+const {ensureArray} = require(`./ensureArray`);
 
-const buildOfferData = (req, defaultPicture = null) => {
+const buildOfferData = (req, oldPicture = null) => {
   const {body, file} = req;
 
-  const title = req.body[`ticket-name`];
   const {
+    title,
     price: sum,
     action: type,
     comment: description,
     category,
   } = body;
-  const picture = file ? file.filename : defaultPicture;
+  const picture = file ? file.filename : oldPicture;
   const categories = ensureArray(category);
 
   return {
