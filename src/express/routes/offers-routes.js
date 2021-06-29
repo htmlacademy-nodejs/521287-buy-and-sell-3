@@ -62,12 +62,13 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
 
 offersRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
   const {id} = req.params;
+  console.log(id);
   const offerData = buildOfferData(req, req.body[`old-image`]);
 
   try {
-    await api.editOffer(offerData);
+    await api.editOffer(id, offerData);
 
-    return res.redirect(`../my`);
+    return res.redirect(`/my`);
   } catch (error) {
     const errorMessage = encodeURIComponent(error.response && error.response.data);
     const errorPath = `/offers/edit/${id}/?error=${errorMessage}`;

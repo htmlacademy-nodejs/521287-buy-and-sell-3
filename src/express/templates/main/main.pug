@@ -22,10 +22,9 @@ block content
                       a(href="#") #{category.name}
                   .ticket-card__header
                     h3.ticket-card__title
-                      a(href="#") #{pugOffer.title}
+                      a(href=`/offers/${pugOffer.id}`) #{pugOffer.title}
                     p.ticket-card__price
-                      span.js-sum #{pugOffer.sum}
-                      |  ₽
+                      span.js-sum #{pugOffer.sum} ₽
                   .ticket-card__desc
                     p #{pugOffer.description}
 

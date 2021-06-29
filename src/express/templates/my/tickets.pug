@@ -20,8 +20,7 @@ block content
                       a(href='#') #{category.name}
                   .ticket-card__header
                     h3.ticket-card__title
-                      a(href='#') #{pugOffer.title}
+                      a(href=`/offers/${pugOffer.id}`) #{pugOffer.title}
                     p.ticket-card__price
-                      span.js-sum #{pugOffer.sum}
-                      |  ₽
+                      span.js-sum #{pugOffer.sum} ₽
                 button.ticket-card__del.js-delete(type='button') Удалить
