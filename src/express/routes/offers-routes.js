@@ -105,6 +105,8 @@ offersRouter.post(`/:id/comments`, async (req, res) => {
 offersRouter.get(`/category/:id`, async (req, res) => {
   const {id} = req.params;
 
+  console.log(id);
+
   const [category, categories] = await Promise.all([
     api.getCategory(id),
     api.getCategories(),

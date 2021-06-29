@@ -50,7 +50,7 @@ block content
                     input#buy-field.visually-hidden(type='radio' name='action' value='OFFER' checked=(offer.type === 'OFFER'))
                     label.switch__button(for='buy-field') Куплю
                   .switch__item
-                    input#sell-field.visually-hidden(type='radio' name='action' value='SELL' checked=(offer.type === 'SALE'))
+                    input#sell-field.visually-hidden(type='radio' name='action' value='SALE' checked=(offer.type === 'SALE'))
                     label.switch__button(for='sell-field') Продам
 
             +errorMessage(error)
