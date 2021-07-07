@@ -10,10 +10,10 @@ const schema = Joi.object({
   commentId: Joi.number().integer().min(1),
 });
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   const params = req.params;
 
-  const {error} = schema.validate(params);
+  const {error} = await schema.validate(params);
 
   if (error) {
     const errorMessage = buildValidationErrorMessage(error);

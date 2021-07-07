@@ -16,9 +16,10 @@ const schema = Joi.object({
   ).min(1).required(),
 });
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   const newOffer = req.body;
-  const {error} = schema.validate(newOffer);
+
+  const {error} = await schema.validate(newOffer);
 
   if (error) {
     const errorMessage = buildValidationErrorMessage(error);

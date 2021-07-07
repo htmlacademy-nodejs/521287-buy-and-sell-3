@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require(`express`);
+const helmet = require(`helmet`);
 const path = require(`path`);
 
 const router = require(`./routes`);
@@ -11,6 +12,7 @@ const UPLOAD_DIR = `upload`;
 
 const app = express();
 
+app.use(helmet());
 app.use(router);
 
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));

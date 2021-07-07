@@ -62,7 +62,7 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
 
 offersRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
   const {id} = req.params;
-  console.log(id);
+
   const offerData = buildOfferData(req, req.body[`old-image`]);
 
   try {
@@ -104,8 +104,6 @@ offersRouter.post(`/:id/comments`, async (req, res) => {
 
 offersRouter.get(`/category/:id`, async (req, res) => {
   const {id} = req.params;
-
-  console.log(id);
 
   const [category, categories] = await Promise.all([
     api.getCategory(id),
