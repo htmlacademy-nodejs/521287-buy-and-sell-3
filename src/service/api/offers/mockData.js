@@ -1,5 +1,7 @@
 'use strict';
 
+const VALID_DESCRIPTION = `Продаю с болью в сердечке, со скрипом на душеньке моей...`;
+
 const mockCategories = [
   `Животные`,
   `Посуда`,
@@ -8,7 +10,7 @@ const mockCategories = [
   `Книги`
 ];
 
-const mockOfferFirstTitle = `Куплю антиквариат`;
+const mockOfferFirstTitle = `Куплю антиквариат в хорошем виде`;
 const mockOfferFirstComments = [
   {
     "text": `Неплохо, но дорого. Оплата наличными или перевод на карту? Продаю в связи с переездом. Отрываю от сердца.`
@@ -23,7 +25,7 @@ const mockOfferFirstComments = [
     "text": `Продаю в связи с переездом. Отрываю от сердца. С чем связана продажа? Почему так дешёво? Оплата наличными или перевод на карту?`
   }
 ];
-const mockOfferSecondTitle = `Продам слона`;
+const mockOfferSecondTitle = `Продам розового слона с длинным хоботом`;
 const mockOfferSecondComments = [
   {
     "text": `Почему в таком ужасном состоянии?`
@@ -119,6 +121,7 @@ const mockOffers = [
 ];
 
 module.exports = {
+  VALID_DESCRIPTION,
   mockCategories,
   mockOffers,
   mockOfferFirstTitle,

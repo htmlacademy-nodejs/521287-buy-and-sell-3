@@ -17,11 +17,10 @@ block content
                   +ticketLabel(pugOffer.type)
                   .ticket-card__categories
                     each category in pugOffer.categories
-                      a(href='#') #{category.name}
+                      a(href=`/offers/category/${category.id}`) #{category.name}
                   .ticket-card__header
                     h3.ticket-card__title
-                      a(href='#') #{pugOffer.title}
+                      a(href=`/offers/${pugOffer.id}`) #{pugOffer.title}
                     p.ticket-card__price
-                      span.js-sum #{pugOffer.sum}
-                      |  ₽
+                      span.js-sum #{pugOffer.sum} ₽
                 button.ticket-card__del.js-delete(type='button') Удалить

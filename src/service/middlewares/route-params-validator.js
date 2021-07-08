@@ -6,13 +6,14 @@ const {HttpCode} = require(`../../constants`);
 const {buildValidationErrorMessage} = require(`../../utils`);
 
 const schema = Joi.object({
-  text: Joi.string().min(20).required(),
+  offerId: Joi.number().integer().min(1),
+  commentId: Joi.number().integer().min(1),
 });
 
 module.exports = async (req, res, next) => {
-  const comment = req.body;
+  const params = req.params;
 
-  const {error} = await schema.validate(comment);
+  const {error} = await schema.validate(params);
 
   if (error) {
     const errorMessage = buildValidationErrorMessage(error);
