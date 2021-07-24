@@ -7,6 +7,7 @@ const {buildValidationErrorMessage} = require(`../../utils`);
 
 const schema = Joi.object({
   text: Joi.string().min(20).required(),
+  userId: Joi.number().integer().positive().required(),
 });
 
 module.exports = async (req, res, next) => {

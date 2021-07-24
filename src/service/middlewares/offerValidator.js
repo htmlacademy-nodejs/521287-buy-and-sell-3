@@ -14,6 +14,7 @@ const schema = Joi.object({
   categories: Joi.array().items(
       Joi.number().integer().positive()
   ).min(1).required(),
+  userId: Joi.number().integer().positive().required(),
 });
 
 module.exports = async (req, res, next) => {
