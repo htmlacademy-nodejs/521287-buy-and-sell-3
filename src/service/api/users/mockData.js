@@ -2,6 +2,15 @@
 
 const passwordUtils = require(`../../lib/password`);
 
+const PASSWORD = `qwerty1234`;
+const ValidUserData = {
+  name: `Сидор Сидоров`,
+  email: `sidorov@example.com`,
+  password: PASSWORD,
+  passwordRepeated: PASSWORD,
+  avatar: `sidorov.jpg`,
+};
+
 const mockUsers = [
   {
     name: `Иван Иванов`,
@@ -18,5 +27,6 @@ const mockUsers = [
 ];
 
 module.exports = {
+  ValidUserData,
   mockUsers,
 };
