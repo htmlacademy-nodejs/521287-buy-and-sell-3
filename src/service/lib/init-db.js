@@ -18,12 +18,12 @@ module.exports = async (sequelize, {categories, offers, users}) => {
   const userIdByEmail = userModels.reduce((acc, next) => ({
     [next.email]: next.id,
     ...acc,
-  }));
+  }), {});
 
   offers.forEach((offer) => {
     offer.userId = userIdByEmail[offer.user];
     offer.comments.forEach((comment) => {
-      comment.userId = userIdByEmail[comment.name];
+      comment.userId = userIdByEmail[comment.user];
     });
   });
 

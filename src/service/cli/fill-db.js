@@ -37,6 +37,7 @@ const generateOffers = (count, titles, categoryList, sentences, commentList, use
   Array(count)
     .fill({})
     .map(() => {
+      const user = users[getRandomInt(0, users.length - 1)].email;
       const categories = getRandomSubarray(categoryList);
       const description = shuffle(sentences).slice(1, 5).join(` `);
       const picture = getPictureFileName(
@@ -54,6 +55,7 @@ const generateOffers = (count, titles, categoryList, sentences, commentList, use
       );
 
       return {
+        user,
         categories,
         description,
         picture,
@@ -95,6 +97,6 @@ module.exports = {
         users,
     );
 
-    return initDatabase(sequelize, {offers, categories});
+    return initDatabase(sequelize, {offers, categories, users});
   },
 };

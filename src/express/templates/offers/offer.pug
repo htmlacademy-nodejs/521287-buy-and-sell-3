@@ -37,10 +37,10 @@ block content
               span  #{formatDate(pugOffer.createdAt)}
             p
               b Автор:
-              a(href='#')  Денис Шкатулкин
+              a(href='#')  #{author.name}
             p
               b Контакты:
-              a(href='mailto:shkatulkin@ya.ru')  shkatulkin@ya.ru
+              a(href=`mailto:${author.email}`)  #{author.email}
           ul.ticket__tags
             each category in pugOffer.categories
               li
@@ -77,7 +77,7 @@ block content
                   .comment-card
                     .comment-card__header
                       a.comment-card__avatar.avatar(href='#')
-                        img(src='img/avatar03.jpg' srcset='img/avatar03@2x.jpg 2x' alt='Аватар пользователя')
-                      p.comment-card__author Александр Бурый
+                        img(src=`img/${comment.users.avatar}` alt='Аватар пользователя')
+                      p.comment-card__author #{comment.users.name}
                     .comment-card__content
                       p #{comment.text}

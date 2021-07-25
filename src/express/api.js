@@ -62,6 +62,13 @@ class API {
       data,
     });
   }
+
+  createUser(data) {
+    return this._load(`/users`, {
+      method: HttpMethod.POST,
+      data,
+    });
+  }
 }
 
 const defaultAPI = new API(defaultURL, TIMEOUT);
