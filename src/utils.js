@@ -50,14 +50,20 @@ const getRandomSubarray = (items) => {
 
 const getPictureFileName = (number) => `item${(`0` + number).slice(-2)}.jpg`;
 
-const generateComments = (count, comments) =>
+const generateComments = (count, comments, users) =>
   Array(count)
     .fill({})
-    .map(() => ({
-      text: shuffle(comments)
+    .map(() => {
+      const user = users[getRandomInt(0, users.length - 1)].email;
+      const text = shuffle(comments)
         .slice(0, getRandomInt(1, 3))
-        .join(` `),
-    }));
+        .join(` `);
+
+      return ({
+        user,
+        text,
+      });
+    });
 
 module.exports = {
   generateId,

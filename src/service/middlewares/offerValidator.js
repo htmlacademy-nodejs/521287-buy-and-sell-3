@@ -14,12 +14,13 @@ const schema = Joi.object({
   categories: Joi.array().items(
       Joi.number().integer().positive()
   ).min(1).required(),
+  userId: Joi.number().integer().positive().required(),
 });
 
 module.exports = async (req, res, next) => {
   const newOffer = req.body;
 
-  const {error} = await schema.validate(newOffer);
+  const {error} = await schema.validateAsync(newOffer);
 
   if (error) {
     const errorMessage = buildValidationErrorMessage(error);

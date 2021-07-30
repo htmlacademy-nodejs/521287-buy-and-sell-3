@@ -1,30 +1,14 @@
 'use strict';
 
 const {Router} = require(`express`);
-const multer = require(`multer`);
-const path = require(`path`);
-const {nanoid} = require(`nanoid`);
 
 const {buildOfferData} = require(`../../utils`);
+const upload = require(`../middlewares/upload`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `offers`;
-const UPLOAD_DIR = `../upload/img`;
 
 const offersRouter = new Router();
-const uploadDirAbsolute = path.resolve(__dirname, UPLOAD_DIR);
-
-const storage = multer.diskStorage({
-  destination: uploadDirAbsolute,
-  filename: (req, file, cb) => {
-    const uniqueName = nanoid(10);
-    const extension = file.originalname.split(`.`).pop();
-
-    cb(null, `${uniqueName}.${extension}`);
-  }
-});
-
-const upload = multer({storage});
 
 offersRouter.get(`/add`, async (req, res) => {
   const {error} = req.query;
@@ -82,8 +66,9 @@ offersRouter.get(`/:id`, async (req, res) => {
   const {error} = req.query;
 
   const offer = await api.getOffer(id, true);
+  const author = offer ? offer.users : {};
 
-  res.render(`${ROOT}/offer`, {id, pugOffer: offer, error});
+  res.render(`${ROOT}/offer`, {id, pugOffer: offer, author, error});
 });
 
 offersRouter.post(`/:id/comments`, async (req, res) => {

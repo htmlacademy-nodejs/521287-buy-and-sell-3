@@ -1,5 +1,7 @@
 'use strict';
 
+const {mockUsers} = require(`../users/mockData`);
+
 const VALID_DESCRIPTION = `Продаю с болью в сердечке, со скрипом на душеньке моей...`;
 
 const mockCategories = [
@@ -13,15 +15,19 @@ const mockCategories = [
 const mockOfferFirstTitle = `Куплю антиквариат в хорошем виде`;
 const mockOfferFirstComments = [
   {
+    "user": mockUsers[1].email,
     "text": `Неплохо, но дорого. Оплата наличными или перевод на карту? Продаю в связи с переездом. Отрываю от сердца.`
   },
   {
+    "user": mockUsers[0].email,
     "text": `А где блок питания? Неплохо, но дорого.`
   },
   {
+    "user": mockUsers[1].email,
     "text": `Оплата наличными или перевод на карту?`
   },
   {
+    "user": mockUsers[0].email,
     "text": `Продаю в связи с переездом. Отрываю от сердца. С чем связана продажа? Почему так дешёво? Оплата наличными или перевод на карту?`
   }
 ];
@@ -40,6 +46,7 @@ const mockOfferSecondComments = [
 
 const mockOffers = [
   {
+    "user": mockUsers[0].email,
     "categories": [
       `Животные`,
       `Марки`,
@@ -63,20 +70,25 @@ const mockOffers = [
     "sum": 96693
   },
   {
+    "user": mockUsers[1].email,
     "categories": [
       `Марки`
     ],
     "comments": [
       {
+        "user": mockUsers[0].email,
         "text": `А сколько игр в комплекте? Почему в таком ужасном состоянии?`
       },
       {
+        "user": mockUsers[1].email,
         "text": `Продаю в связи с переездом. Отрываю от сердца. Вы что?! В магазине дешевле.`
       },
       {
+        "user": mockUsers[0].email,
         "text": `Совсем немного... Почему в таком ужасном состоянии?`
       },
       {
+        "user": mockUsers[1].email,
         "text": `А где блок питания?`
       }
     ],
@@ -87,6 +99,7 @@ const mockOffers = [
     "sum": 54666
   },
   {
+    "user": mockUsers[0].email,
     "categories": [
       `Разное`,
       `Марки`,
@@ -94,6 +107,7 @@ const mockOffers = [
     ],
     "comments": [
       {
+        "user": mockUsers[1].email,
         "text": `А сколько игр в комплекте? Продаю в связи с переездом. Отрываю от сердца.`
       }
     ],
@@ -104,11 +118,13 @@ const mockOffers = [
     "sum": 29392
   },
   {
+    "user": mockUsers[1].email,
     "categories": [
       `Книги`
     ],
     "comments": [
       {
+        "user": mockUsers[0].email,
         "text": `Продаю в связи с переездом. Отрываю от сердца.`
       }
     ],

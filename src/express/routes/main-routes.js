@@ -2,6 +2,7 @@
 
 const {Router} = require(`express`);
 
+const upload = require(`../middlewares/upload`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `main`;
@@ -52,7 +53,40 @@ mainRouter.get(`/search`, async (req, res) => {
   res.render(`${ROOT}/search`, {result});
 });
 
-mainRouter.get(`/sign-up`, (req, res) => res.render(`${ROOT}/sign-up`));
+mainRouter.get(`/sign-up`, (req, res) => {
+  const {error} = req.query;
+
+  res.render(`${ROOT}/sign-up`, {error});
+});
+
+mainRouter.post(`/sign-up`, upload.single(`avatar`), async (req, res) => {
+  const {body, file} = req;
+  const {
+    name,
+    email,
+    password,
+    passwordRepeated,
+  } = body;
+  const avatar = file ? file.filename : null;
+  const userData = {
+    name,
+    email,
+    password,
+    passwordRepeated,
+    avatar,
+  };
+
+  try {
+    await api.createUser(userData);
+
+    res.redirect(`/login`);
+  } catch (error) {
+    const errorMessage = encodeURIComponent(error.response.data);
+
+    res.redirect(`/sign-up?error=${errorMessage}`);
+  }
+});
+
 mainRouter.get(`/login`, (req, res) => res.render(`${ROOT}/login`));
 
 module.exports = mainRouter;

@@ -3,10 +3,10 @@
 const express = require(`express`);
 const request = require(`supertest`);
 const Sequelize = require(`sequelize`);
-
 const {HttpCode} = require(`../../../constants`);
 const initDB = require(`../../lib/init-db`);
 const DataService = require(`../../data-service/search`);
+const {mockUsers} = require(`../users/mockData`);
 const {mockCategories, mockOffers, foundOfferTitle} = require(`./mockData`);
 const search = require(`./search`);
 
@@ -16,7 +16,11 @@ app.use(express.json());
 const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
 
 beforeAll(async () => {
-  await initDB(mockDB, {categories: mockCategories, offers: mockOffers});
+  await initDB(mockDB, {
+    categories: mockCategories,
+    offers: mockOffers,
+    users: mockUsers,
+  });
   search(app, new DataService(mockDB));
 });
 
@@ -26,7 +30,7 @@ describe(`GET /search`, () => {
 
     beforeAll(async () => {
       response = await request(app).get(`/search`).query({
-        query: `Продам новую приставку`
+        query: `Продам новую приставку`,
       });
     });
 
@@ -52,7 +56,7 @@ describe(`GET /search`, () => {
 
     it(`responds with 404 status code when nothing is found`, async () => {
       const response = await request(app).get(`/search`).query({
-        query: `Продам свою душу`
+        query: `Продам свою душу`,
       });
 
       expect(response.statusCode).toBe(HttpCode.NOT_FOUND);

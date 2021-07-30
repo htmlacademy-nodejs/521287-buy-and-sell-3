@@ -12,6 +12,7 @@ const {
 const {getLogger} = require(`../lib/logger`);
 const sequelize = require(`../lib/sequelize`);
 const initDatabase = require(`../lib/init-db`);
+const {mockUsers} = require(`../api/users/mockData`);
 
 const DEFAULT_COUNT = 1;
 const FILE_SENTENCES_PATH = `./data/sentences.txt`;
@@ -32,10 +33,11 @@ const PictureRestrict = {
 
 const logger = getLogger({name: `fill-db`});
 
-const generateOffers = (count, titles, categoryList, sentences, commentList) =>
+const generateOffers = (count, titles, categoryList, sentences, commentList, users) =>
   Array(count)
     .fill({})
     .map(() => {
+      const user = users[getRandomInt(0, users.length - 1)].email;
       const categories = getRandomSubarray(categoryList);
       const description = shuffle(sentences).slice(1, 5).join(` `);
       const picture = getPictureFileName(
@@ -48,10 +50,12 @@ const generateOffers = (count, titles, categoryList, sentences, commentList) =>
       const sum = getRandomInt(SumRestrict.MIN, SumRestrict.MAX);
       const comments = generateComments(
           getRandomInt(1, MAX_COMMENTS),
-          commentList
+          commentList,
+          users,
       );
 
       return {
+        user,
         categories,
         description,
         picture,
@@ -83,14 +87,16 @@ module.exports = {
 
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
+    const users = mockUsers;
     const offers = generateOffers(
         countOffer,
         titles,
         categories,
         sentences,
-        comments
+        comments,
+        users,
     );
 
-    return initDatabase(sequelize, {offers, categories});
+    return initDatabase(sequelize, {offers, categories, users});
   },
 };

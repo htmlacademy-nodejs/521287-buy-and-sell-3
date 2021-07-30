@@ -3,25 +3,27 @@
 const express = require(`express`);
 const Sequelize = require(`sequelize`);
 
+const DataService = require(`../../data-service/users`);
 const initDB = require(`../../lib/init-db`);
-const DataService = require(`../../data-service/offers`);
-const CommentService = require(`../../data-service/comments`);
-const {mockUsers} = require(`../users/mockData`);
-const {mockCategories, mockOffers} = require(`./mockData`);
-const offers = require(`./offers`);
+const user = require(`./users`);
+
+const {
+  mockOffers,
+  mockCategories,
+} = require(`../offers/mockData`);
+const {mockUsers} = require(`./mockData`);
 
 const createAPI = async () => {
   const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
-
-  const app = express();
-  app.use(express.json());
-
   await initDB(mockDB, {
     categories: mockCategories,
     offers: mockOffers,
     users: mockUsers,
   });
-  offers(app, new DataService(mockDB), new CommentService(mockDB));
+
+  const app = express();
+  app.use(express.json());
+  user(app, new DataService(mockDB));
 
   return app;
 };

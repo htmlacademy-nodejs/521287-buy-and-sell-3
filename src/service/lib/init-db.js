@@ -3,13 +3,29 @@
 const Aliase = require(`../models/aliase`);
 const defineModels = require(`../models`);
 
-module.exports = async (sequelize, {categories, offers}) => {
-  const {Category, Offer} = defineModels(sequelize);
+module.exports = async (sequelize, {categories, offers, users}) => {
+  const {Category, Offer, User} = defineModels(sequelize);
   await sequelize.sync({force: true});
 
   const categoryModels = await Category.bulkCreate(
       categories.map((item) => ({name: item}))
   );
+
+  const userModels = await User.bulkCreate(users, {
+    include: [Aliase.OFFERS, Aliase.COMMENTS],
+  });
+
+  const userIdByEmail = userModels.reduce((acc, next) => ({
+    [next.email]: next.id,
+    ...acc,
+  }), {});
+
+  offers.forEach((offer) => {
+    offer.userId = userIdByEmail[offer.user];
+    offer.comments.forEach((comment) => {
+      comment.userId = userIdByEmail[comment.user];
+    });
+  });
 
   const categoryIdByName = categoryModels.reduce(
       (acc, next) => ({
@@ -29,5 +45,6 @@ module.exports = async (sequelize, {categories, offers}) => {
 
     await offerModel.addCategories(offerCategories);
   });
+
   await Promise.all(offerPromises);
 };

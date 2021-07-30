@@ -64,6 +64,7 @@ describe(`POST /offers`, () => {
       picture: `item14.jpg`,
       type: OfferType.OFFER,
       sum: 76809,
+      userId: 1,
     };
     let app;
     let response;
@@ -99,6 +100,7 @@ describe(`POST /offers`, () => {
       picture: `item14.jpg`,
       type: OfferType.OFFER,
       sum: 76809,
+      userId: 1,
     };
     let app;
 
@@ -159,6 +161,7 @@ describe(`PUT /offers/{offerId}`, () => {
       picture: `cat.jpg`,
       type: OfferType.OFFER,
       sum: 100500,
+      userId: 1,
     };
     let app;
     let response;
@@ -189,6 +192,7 @@ describe(`PUT /offers/{offerId}`, () => {
       picture: `объявления`,
       type: OfferType.SALE,
       sum: 404,
+      userId: 1,
     };
 
     it(`responds with 404 status code when offer doesn't exist`, async () => {
@@ -284,6 +288,7 @@ describe(`POST /offers/{offerId}/comments`, () => {
     const OFFER_ID = 2;
     const newCommentText = `Валидному комментарию достаточно этого поля`;
     const newComment = {
+      userId: 1,
       text: newCommentText,
     };
     let app;

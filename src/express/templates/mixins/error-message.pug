@@ -1,0 +1,14 @@
+style.
+  .server-error {
+    margin: 20px 0;
+    padding: 10px;
+
+    background-color: tomato;
+    border-radius: 10px;
+    
+    color: white;
+  }
+
+mixin errorMessage(message)
+  if (message)
+    .server-error= message
