@@ -2,7 +2,7 @@
 
 const {Router} = require(`express`);
 
-const upload = require(`../../service/middlewares/upload`);
+const upload = require(`../middlewares/upload`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `main`;

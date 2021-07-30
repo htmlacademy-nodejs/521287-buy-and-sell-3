@@ -3,7 +3,7 @@
 const {Router} = require(`express`);
 
 const {buildOfferData} = require(`../../utils`);
-const upload = require(`../../service/middlewares/upload`);
+const upload = require(`../middlewares/upload`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `offers`;
