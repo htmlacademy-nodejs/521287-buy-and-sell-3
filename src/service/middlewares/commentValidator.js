@@ -13,7 +13,7 @@ const schema = Joi.object({
 module.exports = async (req, res, next) => {
   const comment = req.body;
 
-  const {error} = await schema.validate(comment);
+  const {error} = await schema.validateAsync(comment);
 
   if (error) {
     const errorMessage = buildValidationErrorMessage(error);

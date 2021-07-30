@@ -14,7 +14,7 @@ const schema = Joi.object({
 
 module.exports = (service) => async (req, res, next) => {
   const newUser = req.body;
-  const {error} = schema.validate(newUser);
+  const {error} = schema.validateAsync(newUser);
 
   if (error) {
     const errorMessage = error.details.map((err) => err.message).join(`/n`);
