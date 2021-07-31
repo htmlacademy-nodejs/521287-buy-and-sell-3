@@ -11,28 +11,25 @@ const myRouter = new Router();
 
 myRouter.get(`/`, checkAuth, async (req, res) => {
   const {user} = req.session;
-
   const offers = await api.getOffers();
+
+  const userOffers = offers.filter(({userId}) => userId === user.id);
 
   res.render(`${ROOT}/tickets`, {
     user,
-    pugOffers: offers,
+    userOffers,
   });
 });
 
 myRouter.get(`/comments`, checkAuth, async (req, res) => {
   const {user} = req.session;
-
-  /**
-   * Здесь должно быть получение объявлений пользователя,
-   * но пока нет такого функционала
-   */
   const offers = await api.getOffers({comments: true});
-  const pugOffers = offers.slice(0, 3);
+
+  const userOffers = offers.filter(({userId}) => userId === user.id);
 
   res.render(`${ROOT}/comments`, {
     user,
-    pugOffers,
+    userOffers,
   });
 });
 

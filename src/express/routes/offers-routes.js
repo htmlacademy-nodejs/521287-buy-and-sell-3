@@ -131,7 +131,7 @@ offersRouter.post(
           text: comment,
         });
 
-        return res.redirect(`../offers/${id}`);
+        return res.redirect(`/offers/${id}`);
       } catch (error) {
         const errorMessage = encodeURIComponent(
             error.response && error.response.data
