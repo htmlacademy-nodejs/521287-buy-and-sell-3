@@ -91,11 +91,15 @@ offersRouter.get(`/:id`, async (req, res) => {
 });
 
 offersRouter.post(`/:id/comments`, async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
   const {comment} = req.body;
 
   try {
-    await api.createComment(id, {text: comment});
+    await api.createComment(id, {
+      userId: user.id,
+      text: comment,
+    });
 
     return res.redirect(`../offers/${id}`);
   } catch (error) {
