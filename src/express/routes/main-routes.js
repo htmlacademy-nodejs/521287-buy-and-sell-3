@@ -11,6 +11,8 @@ const OFFERS_PER_PAGE = 8;
 const mainRouter = new Router();
 
 mainRouter.get(`/`, async (req, res) => {
+  const {user} = req.session;
+
   // Получаем номер страницы
   let {page = 1} = req.query;
   page = +page;
@@ -36,10 +38,17 @@ mainRouter.get(`/`, async (req, res) => {
   const totalPages = Math.ceil(count / OFFERS_PER_PAGE);
 
   // Передаём собранные данные в шаблон
-  res.render(`${ROOT}/main`, {pugOffers: offers, categories, page, totalPages});
+  res.render(`${ROOT}/main`, {
+    user,
+    pugOffers: offers,
+    categories,
+    page,
+    totalPages,
+  });
 });
 
 mainRouter.get(`/search`, async (req, res) => {
+  const {user} = req.session;
   let result = [];
 
   try {
@@ -50,7 +59,10 @@ mainRouter.get(`/search`, async (req, res) => {
     result = [];
   }
 
-  res.render(`${ROOT}/search`, {result});
+  res.render(`${ROOT}/search`, {
+    user,
+    result
+  });
 });
 
 mainRouter.get(`/sign-up`, (req, res) => {

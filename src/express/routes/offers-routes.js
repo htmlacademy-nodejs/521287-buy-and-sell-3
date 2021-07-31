@@ -11,10 +11,15 @@ const ROOT = `offers`;
 const offersRouter = new Router();
 
 offersRouter.get(`/add`, async (req, res) => {
+  const {user} = req.session;
   const {error} = req.query;
   const categories = await api.getCategories();
 
-  res.render(`${ROOT}/add`, {categories, error});
+  res.render(`${ROOT}/add`, {
+    user,
+    categories,
+    error,
+  });
 });
 
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
@@ -33,6 +38,7 @@ offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
 });
 
 offersRouter.get(`/edit/:id`, async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
   const {error} = req.query;
 
@@ -41,7 +47,13 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
     api.getCategories(),
   ]);
 
-  res.render(`${ROOT}/edit`, {id, offer, categories, error});
+  res.render(`${ROOT}/edit`, {
+    user,
+    id,
+    offer,
+    categories,
+    error,
+  });
 });
 
 offersRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
@@ -62,13 +74,20 @@ offersRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
 });
 
 offersRouter.get(`/:id`, async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
   const {error} = req.query;
 
   const offer = await api.getOffer(id, true);
   const author = offer ? offer.users : {};
 
-  res.render(`${ROOT}/offer`, {id, pugOffer: offer, author, error});
+  res.render(`${ROOT}/offer`, {
+    user,
+    id,
+    pugOffer: offer,
+    author,
+    error
+  });
 });
 
 offersRouter.post(`/:id/comments`, async (req, res) => {
@@ -88,6 +107,7 @@ offersRouter.post(`/:id/comments`, async (req, res) => {
 });
 
 offersRouter.get(`/category/:id`, async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
 
   const [category, categories] = await Promise.all([
@@ -95,7 +115,11 @@ offersRouter.get(`/category/:id`, async (req, res) => {
     api.getCategories(),
   ]);
 
-  res.render(`${ROOT}/category`, {categories, category});
+  res.render(`${ROOT}/category`, {
+    user,
+    categories,
+    category,
+  });
 });
 
 module.exports = offersRouter;

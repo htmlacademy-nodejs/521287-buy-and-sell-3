@@ -9,12 +9,19 @@ const ROOT = `my`;
 const myRouter = new Router();
 
 myRouter.get(`/`, async (req, res) => {
+  const {user} = req.session;
+
   const offers = await api.getOffers();
 
-  res.render(`${ROOT}/tickets`, {pugOffers: offers});
+  res.render(`${ROOT}/tickets`, {
+    user,
+    pugOffers: offers,
+  });
 });
 
 myRouter.get(`/comments`, async (req, res) => {
+  const {user} = req.session;
+
   /**
    * Здесь должно быть получение объявлений пользователя,
    * но пока нет такого функционала
@@ -22,7 +29,10 @@ myRouter.get(`/comments`, async (req, res) => {
   const offers = await api.getOffers({comments: true});
   const pugOffers = offers.slice(0, 3);
 
-  res.render(`${ROOT}/comments`, {pugOffers});
+  res.render(`${ROOT}/comments`, {
+    user,
+    pugOffers,
+  });
 });
 
 module.exports = myRouter;
