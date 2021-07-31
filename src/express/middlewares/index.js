@@ -1,9 +1,11 @@
 'use strict';
 
-const auth = require(`./auth`);
+const checkAuth = require(`./checkAuth`);
+const checkNotAuth = require(`./checkNotAuth`);
 const upload = require(`./upload`);
 
 module.exports = {
-  auth,
+  checkAuth,
+  checkNotAuth,
   upload,
 };

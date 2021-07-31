@@ -2,7 +2,11 @@
 
 const {Router} = require(`express`);
 
-const upload = require(`../middlewares/upload`);
+const {
+  checkAuth,
+  checkNotAuth,
+  upload,
+} = require(`../middlewares`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `main`;
@@ -65,13 +69,13 @@ mainRouter.get(`/search`, async (req, res) => {
   });
 });
 
-mainRouter.get(`/sign-up`, (req, res) => {
+mainRouter.get(`/sign-up`, checkNotAuth, (req, res) => {
   const {error} = req.query;
 
   res.render(`${ROOT}/sign-up`, {error});
 });
 
-mainRouter.post(`/sign-up`, upload.single(`avatar`), async (req, res) => {
+mainRouter.post(`/sign-up`, checkNotAuth, upload.single(`avatar`), async (req, res) => {
   const {body, file} = req;
   const {
     name,
@@ -99,13 +103,13 @@ mainRouter.post(`/sign-up`, upload.single(`avatar`), async (req, res) => {
   }
 });
 
-mainRouter.get(`/login`, (req, res) => {
+mainRouter.get(`/login`, checkNotAuth, (req, res) => {
   const {error} = req.query;
 
   res.render(`${ROOT}/login`, {error});
 });
 
-mainRouter.post(`/login`, async (req, res) => {
+mainRouter.post(`/login`, checkNotAuth, async (req, res) => {
   try {
     const {email, password} = req.body;
 
@@ -120,7 +124,7 @@ mainRouter.post(`/login`, async (req, res) => {
   }
 });
 
-mainRouter.get(`/logout`, (req, res) => {
+mainRouter.get(`/logout`, checkAuth, (req, res) => {
   delete req.session.user;
 
   res.redirect(`/`);
