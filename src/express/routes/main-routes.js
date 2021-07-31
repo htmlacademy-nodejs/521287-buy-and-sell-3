@@ -69,13 +69,13 @@ mainRouter.get(`/search`, async (req, res) => {
   });
 });
 
-mainRouter.get(`/sign-up`, checkNotAuth, (req, res) => {
+mainRouter.get(`/register`, checkNotAuth, (req, res) => {
   const {error} = req.query;
 
-  res.render(`${ROOT}/sign-up`, {error});
+  res.render(`${ROOT}/register`, {error});
 });
 
-mainRouter.post(`/sign-up`, checkNotAuth, upload.single(`avatar`), async (req, res) => {
+mainRouter.post(`/register`, checkNotAuth, upload.single(`avatar`), async (req, res) => {
   const {body, file} = req;
   const {
     name,
@@ -99,7 +99,7 @@ mainRouter.post(`/sign-up`, checkNotAuth, upload.single(`avatar`), async (req, r
   } catch (error) {
     const errorMessage = encodeURIComponent(error.response.data);
 
-    res.redirect(`/sign-up?error=${errorMessage}`);
+    res.redirect(`/register?error=${errorMessage}`);
   }
 });
 
