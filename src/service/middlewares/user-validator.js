@@ -14,16 +14,16 @@ const schema = Joi.object({
 
 module.exports = (service) => async (req, res, next) => {
   const newUser = req.body;
-  const {error} = schema.validateAsync(newUser);
 
-  if (error) {
+  try {
+    await schema.validateAsync(newUser);
+  } catch (error) {
     const errorMessage = error.details.map((err) => err.message).join(`/n`);
 
     return res.status(HttpCode.BAD_REQUEST).send(errorMessage);
   }
 
   const userByEmail = await service.findByEmail(newUser.email);
-
   if (userByEmail) {
     const errorMessage = `Email is already in use`;
 

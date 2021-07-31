@@ -89,7 +89,7 @@ describe(`POST /users`, () => {
     it(`responds with 400 status code when email was used`, async () => {
       const badUserData = {
         ...ValidUserData,
-        passwordRepeated: `not ${ValidUserData.password}`
+        email: `ivanov@example.com`,
       };
 
       const response = await request(app)
