@@ -59,11 +59,13 @@ offersRouter.get(`/edit/:id`, checkAuth, csrfProtection, async (req, res) => {
     api.getOffer(id),
     api.getCategories(),
   ]);
+  const offerCategories = offer.categories;
 
   res.render(`${ROOT}/edit`, {
     user,
     id,
     offer,
+    offerCategories,
     categories,
     error,
     csrfToken,
