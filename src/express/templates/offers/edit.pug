@@ -12,6 +12,8 @@ block content
               enctype='multipart/form-data'
               autocomplete='off'
             )
+            input(type='hidden' name='_csrf' value=csrfToken)
+
             .ticket-form__avatar-container.js-preview-container.uploaded
               .ticket-form__avatar.js-preview
                 img(src=`/img/${offer.picture}` alt="Фото объекта")
