@@ -18,7 +18,7 @@ header(class={header: true, 'header--logged': user})
       .search__close-btn
     
     if user
-      a.header__avatar.avatar(href='#')
+      a.header__avatar.avatar(href='/my/')
         img(src=`/img/${user.avatar}` alt='Аватар пользователя')
     else
-      a.header__input(href='register') Вход и регистрация
+      a.header__input(href='/register') Вход и регистрация
