@@ -2,13 +2,14 @@
 
 const {Router} = require(`express`);
 
+const {auth} = require(`../middlewares`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `my`;
 
 const myRouter = new Router();
 
-myRouter.get(`/`, async (req, res) => {
+myRouter.get(`/`, auth, async (req, res) => {
   const {user} = req.session;
 
   const offers = await api.getOffers();
@@ -19,7 +20,7 @@ myRouter.get(`/`, async (req, res) => {
   });
 });
 
-myRouter.get(`/comments`, async (req, res) => {
+myRouter.get(`/comments`, auth, async (req, res) => {
   const {user} = req.session;
 
   /**
