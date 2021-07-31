@@ -1,6 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
+const csrf = require(`csurf`);
 
 const {
   checkAuth,
@@ -13,6 +14,7 @@ const ROOT = `main`;
 const OFFERS_PER_PAGE = 8;
 
 const mainRouter = new Router();
+const csrfProtection = csrf();
 
 mainRouter.get(`/`, async (req, res) => {
   const {user} = req.session;
@@ -69,10 +71,14 @@ mainRouter.get(`/search`, async (req, res) => {
   });
 });
 
-mainRouter.get(`/register`, checkNotAuth, (req, res) => {
+mainRouter.get(`/register`, checkNotAuth, csrfProtection, (req, res) => {
+  const csrfToken = req.csrfToken();
   const {error} = req.query;
 
-  res.render(`${ROOT}/register`, {error});
+  res.render(`${ROOT}/register`, {
+    csrfToken,
+    error,
+  });
 });
 
 mainRouter.post(`/register`, checkNotAuth, upload.single(`avatar`), async (req, res) => {
