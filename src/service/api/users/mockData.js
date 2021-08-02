@@ -2,7 +2,10 @@
 
 const passwordUtils = require(`../../lib/password`);
 
+const EMAIL = `ivanov@example.com`;
+const USERNAME = `Иван Иванов`;
 const PASSWORD = `qwerty1234`;
+
 const ValidUserData = {
   name: `Сидор Сидоров`,
   email: `sidorov@example.com`,
@@ -11,11 +14,16 @@ const ValidUserData = {
   avatar: `sidorov.jpg`,
 };
 
+const AuthValidUserData = {
+  email: EMAIL,
+  password: PASSWORD,
+};
+
 const mockUsers = [
   {
-    name: `Иван Иванов`,
-    email: `ivanov@example.com`,
-    passwordHash: passwordUtils.hashSync(`ivanov`),
+    name: USERNAME,
+    email: EMAIL,
+    passwordHash: passwordUtils.hashSync(PASSWORD),
     avatar: `avatar01.jpg`,
   },
   {
@@ -27,6 +35,8 @@ const mockUsers = [
 ];
 
 module.exports = {
+  USERNAME,
   ValidUserData,
+  AuthValidUserData,
   mockUsers,
 };

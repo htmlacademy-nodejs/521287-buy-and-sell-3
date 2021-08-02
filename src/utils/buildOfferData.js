@@ -3,8 +3,10 @@
 const {ensureArray} = require(`./ensureArray`);
 
 const buildOfferData = (req, oldPicture = null) => {
-  const {body, file} = req;
+  const {body, file, session} = req;
 
+  const {user} = session;
+  const userId = user.id;
   const {
     title,
     price: sum,
@@ -16,6 +18,7 @@ const buildOfferData = (req, oldPicture = null) => {
   const categories = ensureArray(category);
 
   return {
+    userId,
     title,
     description,
     type,

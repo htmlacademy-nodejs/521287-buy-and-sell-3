@@ -2,27 +2,35 @@
 
 const {Router} = require(`express`);
 
+const {checkAuth} = require(`../middlewares`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `my`;
 
 const myRouter = new Router();
 
-myRouter.get(`/`, async (req, res) => {
+myRouter.get(`/`, checkAuth, async (req, res) => {
+  const {user} = req.session;
   const offers = await api.getOffers();
 
-  res.render(`${ROOT}/tickets`, {pugOffers: offers});
+  const userOffers = offers.filter(({userId}) => userId === user.id);
+
+  res.render(`${ROOT}/tickets`, {
+    user,
+    userOffers,
+  });
 });
 
-myRouter.get(`/comments`, async (req, res) => {
-  /**
-   * Здесь должно быть получение объявлений пользователя,
-   * но пока нет такого функционала
-   */
+myRouter.get(`/comments`, checkAuth, async (req, res) => {
+  const {user} = req.session;
   const offers = await api.getOffers({comments: true});
-  const pugOffers = offers.slice(0, 3);
 
-  res.render(`${ROOT}/comments`, {pugOffers});
+  const userOffers = offers.filter(({userId}) => userId === user.id);
+
+  res.render(`${ROOT}/comments`, {
+    user,
+    userOffers,
+  });
 });
 
 module.exports = myRouter;

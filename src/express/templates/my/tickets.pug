@@ -7,8 +7,9 @@ block content
         .tickets-list__header
           a.tickets-list__btn.btn.btn--big(href='/offers/add')
             span Новая публикация
+
         ul
-          each pugOffer in pugOffers
+          each pugOffer in userOffers
             li.tickets-list__item.js-card
               .ticket-card.ticket-card--color01
                 .ticket-card__img

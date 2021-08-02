@@ -1,16 +1,24 @@
 'use strict';
 
 const {Router} = require(`express`);
+const csrf = require(`csurf`);
 
-const upload = require(`../middlewares/upload`);
+const {
+  checkAuth,
+  checkNotAuth,
+  upload,
+} = require(`../middlewares`);
 const api = require(`../api`).getAPI();
 
 const ROOT = `main`;
 const OFFERS_PER_PAGE = 8;
 
 const mainRouter = new Router();
+const csrfProtection = csrf();
 
 mainRouter.get(`/`, async (req, res) => {
+  const {user} = req.session;
+
   // Получаем номер страницы
   let {page = 1} = req.query;
   page = +page;
@@ -36,10 +44,17 @@ mainRouter.get(`/`, async (req, res) => {
   const totalPages = Math.ceil(count / OFFERS_PER_PAGE);
 
   // Передаём собранные данные в шаблон
-  res.render(`${ROOT}/main`, {pugOffers: offers, categories, page, totalPages});
+  res.render(`${ROOT}/main`, {
+    user,
+    pugOffers: offers,
+    categories,
+    page,
+    totalPages,
+  });
 });
 
 mainRouter.get(`/search`, async (req, res) => {
+  const {user} = req.session;
   let result = [];
 
   try {
@@ -50,16 +65,23 @@ mainRouter.get(`/search`, async (req, res) => {
     result = [];
   }
 
-  res.render(`${ROOT}/search`, {result});
+  res.render(`${ROOT}/search`, {
+    user,
+    result
+  });
 });
 
-mainRouter.get(`/sign-up`, (req, res) => {
+mainRouter.get(`/register`, checkNotAuth, csrfProtection, (req, res) => {
+  const csrfToken = req.csrfToken();
   const {error} = req.query;
 
-  res.render(`${ROOT}/sign-up`, {error});
+  res.render(`${ROOT}/register`, {
+    csrfToken,
+    error,
+  });
 });
 
-mainRouter.post(`/sign-up`, upload.single(`avatar`), async (req, res) => {
+mainRouter.post(`/register`, checkNotAuth, upload.single(`avatar`), async (req, res) => {
   const {body, file} = req;
   const {
     name,
@@ -83,10 +105,35 @@ mainRouter.post(`/sign-up`, upload.single(`avatar`), async (req, res) => {
   } catch (error) {
     const errorMessage = encodeURIComponent(error.response.data);
 
-    res.redirect(`/sign-up?error=${errorMessage}`);
+    res.redirect(`/register?error=${errorMessage}`);
   }
 });
 
-mainRouter.get(`/login`, (req, res) => res.render(`${ROOT}/login`));
+mainRouter.get(`/login`, checkNotAuth, (req, res) => {
+  const {error} = req.query;
+
+  res.render(`${ROOT}/login`, {error});
+});
+
+mainRouter.post(`/login`, checkNotAuth, async (req, res) => {
+  try {
+    const {email, password} = req.body;
+
+    const user = await api.auth(email, password);
+
+    req.session.user = user;
+    res.redirect(`/`);
+  } catch (error) {
+    const errorMessage = encodeURIComponent(error.response.data);
+
+    res.redirect(`/login?error=${errorMessage}`);
+  }
+});
+
+mainRouter.get(`/logout`, checkAuth, (req, res) => {
+  delete req.session.user;
+
+  res.redirect(`/`);
+});
 
 module.exports = mainRouter;
