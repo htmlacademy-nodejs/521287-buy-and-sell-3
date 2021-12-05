@@ -16,6 +16,7 @@ describe(`Function buildOfferData`, () => {
 
   it(`returns data with picture in request`, () => {
     const PICTURE = `picture001.jpg`;
+    const USER_ID = 1;
     const REQ = {
       body: {
         title: TITLE,
@@ -27,6 +28,11 @@ describe(`Function buildOfferData`, () => {
       file: {
         filename: PICTURE,
       },
+      session: {
+        user: {
+          id: USER_ID
+        }
+      }
     };
 
     const expected = {
@@ -36,6 +42,7 @@ describe(`Function buildOfferData`, () => {
       sum: SUM,
       categories: CATEGORIES,
       picture: PICTURE,
+      userId: USER_ID
     };
     const result = buildOfferData(REQ);
 
@@ -52,6 +59,11 @@ describe(`Function buildOfferData`, () => {
         action: TYPE,
         category: CATEGORIES,
       },
+      session: {
+        user: {
+          id: `1`
+        }
+      }
     };
 
     const expected = {
@@ -61,6 +73,7 @@ describe(`Function buildOfferData`, () => {
       sum: SUM,
       categories: CATEGORIES,
       picture: OLD_PICTURE,
+      userId: `1`
     };
     const result = buildOfferData(REQ, OLD_PICTURE);
 
